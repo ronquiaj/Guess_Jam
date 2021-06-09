@@ -9,10 +9,14 @@
     "express": "^4.17.1",
     "mongoose": "^5.12.13"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "watch": "nodemon ./server.js",
+    "hi": "echo hello"
   },
   "author": "",
   "license": "ISC"
