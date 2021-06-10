@@ -31,7 +31,7 @@ router.get("/getRandomSong", async (req, res) => {
       headers: {
         Authorization:
           "Bearer " +
-          "BQACOczQWzKWDvm81h-ByAF1M8ZGaFmr4xS5IVdO9psUlif5IyyqiPxen4F0T0cdwrCoIp6dn5JHD_cGOak",
+          req.token,
       },
     };
 

@@ -17,8 +17,8 @@ app.use(cors());
 app.use(express.json());
 
 // get acccess token, expires every 3600 ms
-app.use((req, res, next) => {
-  const token = getSpotifyToken();
+app.use(async (req, res, next) => {
+  const token = await getSpotifyToken();
   req.token = token;
   next();
 });
