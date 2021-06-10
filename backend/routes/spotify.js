@@ -29,9 +29,7 @@ router.get("/getRandomSong", async (req, res) => {
         offset: offset,
       },
       headers: {
-        Authorization:
-          "Bearer " +
-          req.token,
+        Authorization: "Bearer " + req.token,
       },
     };
 
@@ -51,7 +49,7 @@ router.get("/getRandomSong", async (req, res) => {
   }
   previewUrl === "error"
     ? res.status(500).json({ msg: "error fetching random song" })
-    : res.json({ previewUrl: previewUrl });
+    : res.send(previewUrl);
 });
 
 module.exports = router;
