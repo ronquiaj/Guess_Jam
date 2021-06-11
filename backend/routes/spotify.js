@@ -19,6 +19,7 @@ router.get("/getRandomSong", async (req, res) => {
   //https://developer.spotify.com/documentation/web-api/reference/#category-search
   let previewUrl = "";
   while (!previewUrl) {
+    console.log(req.token);
     const char = getRandomCharacter();
     const offset = Math.floor(Math.random() * 1000);
     const url = `${spotifyUrl}/search/`;

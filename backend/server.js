@@ -7,22 +7,25 @@ const spotifyRoutes = require("./routes/spotify");
 const app = express();
 const port = process.env.PORT || 5000;
 
-// get client info
+// Get client info
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const spotifyUrl = process.env.SPOTIFY_Url;
 
-// middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// get acccess token, expires every 3600 ms
+// Get acccess token, expires every 3600 ms. Sets our request token to the spotify token so we can use the application.
 app.use(async (req, res, next) => {
   const token = await getSpotifyToken();
   req.token = token;
   next();
 });
 
+/**
+ * Function that gets our secret and id from the .env file we provide, and sends the data to the spotify api, which gives us back the token.
+ * @returns
+ */
 const getSpotifyToken = async () => {
   const url = `https://accounts.spotify.com/api/token`;
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
@@ -40,10 +43,10 @@ const getSpotifyToken = async () => {
   return result.data.access_token;
 };
 
-// spotify routes
+// Spotify routes
 app.use("/spotify", spotifyRoutes);
 
-// deploy server
+// Deploy server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
