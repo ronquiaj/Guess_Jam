@@ -3,6 +3,7 @@ const cors = require("cors");
 const { default: axios } = require("axios");
 require("dotenv").config();
 const spotifyRoutes = require("./routes/spotify");
+const userRoutes = require("./routes/users.js");
 const mongoose = require("mongoose");
 
 const app = express();
@@ -58,6 +59,9 @@ const getSpotifyToken = async () => {
 
 // Spotify routes
 app.use("/spotify", spotifyRoutes);
+
+// User routes
+app.use("/users", userRoutes);
 
 // Deploy server
 app.listen(port, () => {
