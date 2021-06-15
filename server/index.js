@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+const { graphqlHTTP } = require("express-graphql");
 const { default: axios } = require("axios");
 require("dotenv").config();
-const spotifyRoutes = require("./routes/spotify");
-const userRoutes = require("./routes/users.js");
+const spotifyRoutes = require("./build/routes/spotify");
+const schema = require("./build/schema/schema");
+const userRoutes = require("./build/routes/users");
 const mongoose = require("mongoose");
-
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -16,18 +17,25 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    graphiql: true
+  })
+);
 
 // Connect to database
 const dbUri = process.env.DB;
 mongoose.connect(dbUri, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 const conn = mongoose.connection;
 conn.on("error", (err) => console.log(err));
-conn.once("open", () => console.log("Connected to database"))
+conn.once("open", () => console.log("Connected to database"));
 
 // Get acccess token, expires every 3600 ms. Sets our request token to the spotify token so we can use the application.
 app.use(async (req, res, next) => {
@@ -46,14 +54,12 @@ const getSpotifyToken = async () => {
   const config = {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${auth}`,
-    },
+      Authorization: `Basic ${auth}`
+    }
   };
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
-  const result = await axios
-    .post(url, params, config)
-    .catch((err) => console.log(err));
+  const result = await axios.post(url, params, config).catch((err) => console.log(err));
   return result.data.access_token;
 };
 

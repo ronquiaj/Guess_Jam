@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
+import { User } from "../models/user";
 const router = express.Router();
-const User = require("../models/user");
 
 // User sign up
 router.post("/signup", async (req, res) => {
@@ -8,22 +8,22 @@ router.post("/signup", async (req, res) => {
 
   try {
     let user = await User.findOne({
-      email,
+      email
     });
 
     if (user) res.status(400).json({ msg: "User already exists" });
 
     user = new User({
       email,
-      password,
+      password
     });
 
     const response = await user.save();
     res.json(response);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({
-      msg: "Error saving user",
+      msg: "Error saving user"
     });
   }
 });
@@ -31,21 +31,21 @@ router.post("/signup", async (req, res) => {
 // User log in
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  
+
   try {
     let user = await User.findOne({
-      email,
+      email
     });
-    
+
     if (user && user.password == password) res.end();
-    
+
     res.status(400).json({ msg: "Incorrect email or password" });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({
-      msg: "Server error",
+      msg: "Server error"
     });
   }
 });
 
-module.exports = router
+module.exports = router;
