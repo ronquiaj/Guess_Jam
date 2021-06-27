@@ -1,14 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const { graphqlHTTP } = require("express-graphql");
 const { default: axios } = require("axios");
 require("dotenv").config();
 const spotifyRoutes = require("./build/routes/spotify");
-const schema = require("./build/schema/schema");
 const userRoutes = require("./build/routes/users");
 const mongoose = require("mongoose");
+const PORT = process.env.PORT || 5000;
+const { ApolloServer } = require("apollo-server-express");
+const { typeDefs, resolvers } = require("./build/schema/schema");
 const app = express();
-const port = process.env.PORT || 5000;
+const { SpotifyAPI } = require("./build/dataSources/spotifyAPI");
 
 // Get client info
 const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -17,13 +18,6 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    graphiql: true
-  })
-);
 
 // Connect to database
 const dbUri = process.env.DB;
@@ -40,7 +34,7 @@ conn.once("open", () => console.log("Connected to database"));
 // Get acccess token, expires every 3600 ms. Sets our request token to the spotify token so we can use the application.
 app.use(async (req, res, next) => {
   const token = await getSpotifyToken();
-  req.token = token;
+  req.headers.authorization = token;
   next();
 });
 
@@ -63,13 +57,33 @@ const getSpotifyToken = async () => {
   return result.data.access_token;
 };
 
+console.log(new SpotifyAPI());
+
 // Spotify routes
 app.use("/spotify", spotifyRoutes);
 
 // User routes
 app.use("/users", userRoutes);
 
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    return { token: req.headers.authorization || "" };
+  },
+  dataSources: () => ({
+    spotifyAPI: new SpotifyAPI()
+  }),
+  formatError: (err) => {
+    console.error(err);
+    return err;
+  }
+});
+server.start();
+server.applyMiddleware({ app });
+console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+
 // Deploy server
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });

@@ -27,7 +27,7 @@ router.get("/getRandomSong", async (req, res) => {
         offset: offset
       },
       headers: {
-        Authorization: `Bearer ${req.token}`
+        Authorization: `Bearer ${req.headers.authorization}`
       }
     };
 
