@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const { default: axios } = require("axios");
 require("dotenv").config();
-const spotifyRoutes = require("./build/routes/spotify");
 const userRoutes = require("./build/routes/users");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000;
@@ -56,11 +55,6 @@ const getSpotifyToken = async () => {
   const result = await axios.post(url, params, config).catch((err) => console.log(err));
   return result.data.access_token;
 };
-
-console.log(new SpotifyAPI());
-
-// Spotify routes
-app.use("/spotify", spotifyRoutes);
 
 // User routes
 app.use("/users", userRoutes);

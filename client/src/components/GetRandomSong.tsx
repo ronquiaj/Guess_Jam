@@ -1,25 +1,45 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import React, { FC } from "react";
+import { gql, useLazyQuery } from "@apollo/client";
 
-const GetRandomSong = () => {
+const GET_TRACKS = gql`
+  query GetTracks {
+    tracks {
+      name
+      preview_url
+      album {
+        name
+        album_cover
+      }
+    }
+  }
+`;
+
+const GetRandomSong: FC = () => {
   const [currentSong, setCurrentSong] = useState<HTMLAudioElement | undefined>(undefined);
-  const [timerID, setTimerID] = useState<NodeJS.Timeout | null>(null);
-  const handleClick = async () => {
-    console.log(timerID);
-    if (!timerID) {
-      const result = await axios.get("http://localhost:5000/spotify/getRandomSong");
-      const previewUrl = await result.data;
+  const [albumName, setAlbumName] = useState<string | undefined>();
+  const [albumCover, setAlbumCover] = useState<string | undefined>();
+  const [getTracks, { loading, data }] = useLazyQuery(GET_TRACKS);
+
+  useEffect(() => {
+    if (data?.tracks) {
+      const chosenTrack = data.tracks[Math.floor(Math.random() * (data.tracks.length - 1))];
+      console.log(chosenTrack);
+      setAlbumCover(chosenTrack.album.album_cover);
+      setAlbumName(chosenTrack.album.name);
       currentSong && currentSong.pause();
       const audio = new Audio();
-      audio.src = previewUrl;
+      audio.src = chosenTrack.preview_url;
       setCurrentSong(audio);
       audio.play();
     }
-  };
+  }, [data]);
 
   return (
     <div>
-      <button onClick={handleClick}>play random song</button>
+      <button onClick={() => getTracks()}>play random song</button>
+      {albumName}
+      <img src={albumCover ?? ""} />
     </div>
   );
 };
