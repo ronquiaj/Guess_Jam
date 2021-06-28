@@ -4,7 +4,7 @@ const { default: axios } = require("axios");
 require("dotenv").config();
 const userRoutes = require("./build/routes/users");
 const mongoose = require("mongoose");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 const { ApolloServer } = require("apollo-server-express");
 const { typeDefs, resolvers } = require("./build/schema/schema");
 const app = express();

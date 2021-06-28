@@ -11,18 +11,26 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "graphql": "^15.5.0",
+    "graphql": "^15.5.1",
     "mongoose": "^5.12.13"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.21.5",
+    "@graphql-codegen/introspection": "1.18.2",
+    "@graphql-codegen/typescript": "^1.22.3",
+    "@graphql-codegen/typescript-mongodb": "^1.19.3",
+    "@graphql-codegen/typescript-resolvers": "^1.19.4",
     "@types/express": "^4.17.12",
+    "@types/graphql": "^14.5.0",
     "@types/node": "^15.12.2",
+    "apollo": "^2.33.4",
     "nodemon": "^2.0.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "watch": "tsc --watch && nodemon ./index.js"
+    "watch": "tsc --watch && nodemon ./index.js",
+    "codegen": "graphql-codegen --config codegen.yml --watch"
   },
   "author": "",
   "license": "ISC"
