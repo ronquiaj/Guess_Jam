@@ -18,18 +18,6 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 app.use(cors());
 app.use(express.json());
 
-// Connect to database
-const dbUri = process.env.DB;
-mongoose.connect(dbUri, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-});
-
-const conn = mongoose.connection;
-conn.on("error", (err) => console.log(err));
-conn.once("open", () => console.log("Connected to database"));
-
 // Get acccess token, expires every 3600 ms. Sets our request token to the spotify token so we can use the application.
 app.use(async (req, res, next) => {
   const token = await getSpotifyToken();
