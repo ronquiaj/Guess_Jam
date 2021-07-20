@@ -35,12 +35,14 @@ const getSpotifyToken = async () => {
   const config = {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${auth}`
-    }
+      Authorization: `Basic ${auth}`,
+    },
   };
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
-  const result = await axios.post(url, params, config).catch((err) => console.log(err));
+  const result = await axios
+    .post(url, params, config)
+    .catch((err) => console.log(err));
   return result.data.access_token;
 };
 
@@ -54,12 +56,12 @@ const server = new ApolloServer({
     return { token: req.headers.authorization || "" };
   },
   dataSources: () => ({
-    spotifyAPI: new SpotifyAPI()
+    spotifyAPI: new SpotifyAPI(),
   }),
   formatError: (err) => {
     console.error(err);
     return err;
-  }
+  },
 });
 server.start();
 server.applyMiddleware({ app });

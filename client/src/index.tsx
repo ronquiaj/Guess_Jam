@@ -9,13 +9,13 @@ const client = new ApolloClient({
   defaultOptions: {
     watchQuery: {
       fetchPolicy: "no-cache",
-      errorPolicy: "ignore"
+      errorPolicy: "ignore",
     },
     query: {
       fetchPolicy: "no-cache",
-      errorPolicy: "all"
-    }
-  }
+      errorPolicy: "all",
+    },
+  },
 });
 
 ReactDOM.render(

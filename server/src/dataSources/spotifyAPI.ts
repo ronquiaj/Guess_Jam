@@ -10,12 +10,18 @@ class SpotifyAPI extends RESTDataSource {
     request.headers.set("Authorization", `Bearer ${this.context.token}`);
   }
 
+  /**
+   * Function to get a random character, this will be used for fetching a random song from the Spotify API
+   * @returns a random character
+   */
   getRandomCharacter = () => {
     // A list of all characters that can be chosen.
     const characters = "abcdefghijklmnopqrstuvwxyz";
 
     // Gets a random character from the characters string.
-    const randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
+    const randomCharacter = characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
     return randomCharacter;
   };
 
@@ -23,7 +29,7 @@ class SpotifyAPI extends RESTDataSource {
     return this.get("search/", {
       q: this.getRandomCharacter(),
       type: "track",
-      offset: Math.floor(Math.random() * 1000)
+      offset: Math.floor(Math.random() * 1000),
     });
   }
 }

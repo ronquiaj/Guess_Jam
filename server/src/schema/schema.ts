@@ -45,7 +45,9 @@ const resolvers: GraphQL.Resolvers = {
     tracks: async (_, __, { dataSources }) => {
       const res = await dataSources.spotifyAPI.getTrack();
       const data: SpotifyTrack[] = res.tracks.items;
-      const tracksWithPreview = data.filter((track) => track.preview_url !== null);
+      const tracksWithPreview = data.filter(
+        (track) => track.preview_url !== null
+      );
 
       /* For each track, check to see if the track has a preview url, and if it has one then that track will be included in the 
       response from this resolver */
@@ -60,17 +62,17 @@ const resolvers: GraphQL.Resolvers = {
               explicit: curTrack.explicit as string,
               album: {
                 album_cover: curTrack.album.images[0].url,
-                name: curTrack.album.name
-              } as GraphQL.Album
+                name: curTrack.album.name,
+              } as GraphQL.Album,
             });
+          console.log(returnTracks);
           return returnTracks;
         },
         []
       );
-
       return tracks;
-    }
-  }
+    },
+  },
 };
 
 export { typeDefs, resolvers };

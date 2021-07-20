@@ -25,7 +25,9 @@ var __awaiter =
         }
       }
       function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+        result.done
+          ? resolve(result.value)
+          : adopt(result.value).then(fulfilled, rejected);
       }
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
@@ -36,11 +38,17 @@ const apollo_datasource_rest_1 = require("apollo-datasource-rest");
 class SpotifyAPI extends apollo_datasource_rest_1.RESTDataSource {
   constructor() {
     super();
+    /**
+     * Function to get a random character, this will be used for fetching a random song from the Spotify API
+     * @returns a random character
+     */
     this.getRandomCharacter = () => {
       // A list of all characters that can be chosen.
       const characters = "abcdefghijklmnopqrstuvwxyz";
       // Gets a random character from the characters string.
-      const randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
+      const randomCharacter = characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
       return randomCharacter;
     };
     this.baseURL = "https://api.spotify.com/v1/";
@@ -53,7 +61,7 @@ class SpotifyAPI extends apollo_datasource_rest_1.RESTDataSource {
       return this.get("search/", {
         q: this.getRandomCharacter(),
         type: "track",
-        offset: Math.floor(Math.random() * 1000)
+        offset: Math.floor(Math.random() * 1000),
       });
     });
   }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import React, { FC } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
+import { GetTracks } from "./__generated__/GetTracks";
 
 const GET_TRACKS = gql`
   query GetTracks {
@@ -16,14 +17,18 @@ const GET_TRACKS = gql`
 `;
 
 const GetRandomSong: FC = () => {
-  const [currentSong, setCurrentSong] = useState<HTMLAudioElement | undefined>(undefined);
+  const [currentSong, setCurrentSong] = useState<HTMLAudioElement | undefined>(
+    undefined
+  );
   const [albumName, setAlbumName] = useState<string | undefined>();
   const [albumCover, setAlbumCover] = useState<string | undefined>();
-  const [getTracks, { loading, data }] = useLazyQuery(GET_TRACKS);
+  const [getTracks, { loading, data }] = useLazyQuery<GetTracks>(GET_TRACKS);
 
   useEffect(() => {
     if (data?.tracks) {
-      const chosenTrack = data.tracks[Math.floor(Math.random() * (data.tracks.length - 1))];
+      const chosenTrack =
+        data.tracks[Math.floor(Math.random() * (data.tracks.length - 1))];
+      console.log(data.tracks);
       console.log(chosenTrack);
       setAlbumCover(chosenTrack.album.album_cover);
       setAlbumName(chosenTrack.album.name);
