@@ -2,7 +2,9 @@
 
 A music guessing game to play with friends and family from anywhere in the world!
 
-![logo (1)](https://user-images.githubusercontent.com/60367655/126409053-15eda52d-41f4-4bf1-9eab-d99be71d36c3.png)
+![logo](https://user-images.githubusercontent.com/60367655/126410272-72e4e4aa-92f1-4cf6-a788-a6f03a17d43f.png)
+
+
 
 ## Set up .env file in the backend directory
 
