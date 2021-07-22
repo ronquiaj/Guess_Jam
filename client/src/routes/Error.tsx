@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 const Error: FC = () => {
-  return <div></div>;
+  return <div>error page</div>;
 };
 
 export default Error;
