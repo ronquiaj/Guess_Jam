@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-type Props = {
+export type Props = {
   /**
    * Describes the text inside the button
    */
