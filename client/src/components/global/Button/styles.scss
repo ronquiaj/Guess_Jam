@@ -1,5 +1,10 @@
-@import 'styles/colors';
+@import "styles/colors";
 
 .button {
-    background-color: "green";
+  color: $blue-off;
+  border: 0.3rem solid $blue-on;
+  width: 10rem; //feafwefwe f weaa
+  &:hover {
+    color: $blue-on;
+  }
 }
