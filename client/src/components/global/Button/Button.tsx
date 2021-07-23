@@ -1,4 +1,5 @@
 import { FC } from "react";
+import "./styles.scss";
 
 export type Props = {
   /**
@@ -12,7 +13,11 @@ export type Props = {
 };
 
 const Button: FC<Props> = ({ text, onClick }: Props) => {
-  return <div onClick={() => onClick()}>{text}</div>;
+  return (
+    <div className='button' onClick={() => onClick()}>
+      {text}
+    </div>
+  );
 };
 
 export default Button;
