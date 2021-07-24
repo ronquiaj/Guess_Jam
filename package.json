@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "prettier": "^2.3.2"
-  },
-  "scripts": {
-    "fix:style": "yarn prettier --write ."
-  }
-}
