@@ -1,10 +1,21 @@
 @import "styles/colors";
+@import "styles/effects";
 
 .button {
-  color: $blue-off;
-  border: 0.3rem solid $blue-on;
-  width: 10rem; //feafwefwe f weaa
+  font-family: "Caveat", cursive;
+  letter-spacing: 0.15rem;
+  color: $red-off;
+  border: 0.3rem solid $red-off;
+  width: 25rem;
+  font-size: 2rem;
+  text-align: center;
+  transition: 500ms all;
+  border-radius: 0.5rem;
+
   &:hover {
-    color: $blue-on;
+    color: $red-on;
+    border: 0.3rem solid $red-on;
+    @include neon(text-shadow, $red-on);
+    @include neon(box-shadow, $red-on);
   }
 }

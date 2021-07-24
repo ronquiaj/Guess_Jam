@@ -1,0 +1,5 @@
+@import "./colors.scss";
+
+@mixin neon($property, $color) {
+  #{$property}: 0 0 21px $white, 0 0 42px $color, 0 0 82px $color;
+}
