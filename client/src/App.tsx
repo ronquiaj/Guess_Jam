@@ -4,6 +4,7 @@ import Lobby from "./routes/Lobby";
 import Error from "./routes/Error";
 import GamePage from "./routes/GamePage";
 import Landing from "./routes/Landing";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path='/game' render={() => <GamePage />} />
           <Route path='*' render={() => <Error />} />
         </Switch>
+        <Navbar />
         <GetRandomSong />
       </Router>
     </div>

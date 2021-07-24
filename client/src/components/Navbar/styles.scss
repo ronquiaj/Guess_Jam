@@ -1,0 +1,30 @@
+@import "styles/colors";
+@import "styles/effects";
+
+.navbar {
+  width: 100%;
+  height: 20vh;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+
+  &--route-container {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  &--logo-container {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    &__logo {
+      width: 5.5rem;
+      height: 5rem;
+      margin-right: 2rem;
+    }
+  }
+}
