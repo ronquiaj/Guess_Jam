@@ -1,27 +1,39 @@
 @import "styles/colors";
 @import "styles/effects";
+@import "styles/utilities";
+
+@mixin typography($color-off, $color-on) {
+  transition: 500ms all;
+  width: 100%;
+  color: $color-off;
+  &:hover {
+    color: $color-on;
+    @include neon(text-shadow, $color-on);
+  }
+}
 
 .font {
   font-family: "Caveat", cursive;
   font-size: 2.5rem;
 
   .blue {
-    transition: 500ms all;
-    width: 100%;
-    color: $blue-off;
-    &:hover {
-      color: $blue-on;
-      @include neon(text-shadow, $blue-on);
+    color: $blue-on;
+    &--on {
+      @include typography($blue-off, $blue-on);
     }
   }
 
   .red {
-    transition: 500ms all;
-    color: $red-off;
-    width: 100%;
-    &:hover {
-      color: $red-on;
-      @include neon(text-shadow, $red-on);
+    color: $red-on;
+    &--on {
+      @include typography($red-off, $red-on);
+    }
+  }
+
+  .hot-pink {
+    color: $hot-pink-off;
+    &--on {
+      @include typography($hot-pink-off, $hot-pink-on);
     }
   }
 }
