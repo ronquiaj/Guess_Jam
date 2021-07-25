@@ -2,6 +2,7 @@
 @import "styles/effects";
 
 .button {
+  cursor: pointer;
   font-family: "Caveat", cursive;
   letter-spacing: 0.15rem;
   color: $red-off;
@@ -11,6 +12,7 @@
   text-align: center;
   transition: 500ms all;
   border-radius: 0.5rem;
+  background: transparent;
 
   &:hover {
     color: $red-on;

@@ -1,21 +1,21 @@
-import { FC } from "react";
+import { FC, ReactChild } from "react";
 import "./styles.scss";
 
 export type Props = {
   /**
    * Describes the text inside the button
    */
-  text: string;
+  children: ReactChild;
   /**
    * The function triggered when the button is clicked
    */
-  onClick: () => void;
+  onClick?: () => void;
 };
 
-const Button: FC<Props> = ({ text, onClick }: Props) => {
+const Button: FC<Props> = ({ children, onClick }: Props) => {
   return (
-    <div className='button' onClick={() => onClick()}>
-      {text}
+    <div className='button' onClick={onClick && (() => onClick())}>
+      {children}
     </div>
   );
 };

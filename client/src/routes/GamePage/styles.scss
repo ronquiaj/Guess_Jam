@@ -1,0 +1,16 @@
+@import "styles/colors";
+@import "styles/effects";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: flex-end;
+  align-items: center;
+  &--button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 45%;
+  }
+}
