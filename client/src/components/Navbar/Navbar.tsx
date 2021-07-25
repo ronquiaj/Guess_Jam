@@ -21,7 +21,7 @@ const Navbar: FC = () => {
         </Link>
       </div>
       <div className='navbar--logo-container'>
-        <img className='navbar--logo-container__logo' src='/images/logo.png'></img>
+        <img alt='logo' className='navbar--logo-container__logo' src='/images/logo.png'></img>
       </div>
     </div>
   );
