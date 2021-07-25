@@ -1,5 +1,6 @@
 @import "styles/colors";
 @import "styles/effects";
+@import "styles/breakpoints";
 
 .button {
   cursor: pointer;
@@ -13,7 +14,9 @@
   transition: 500ms all;
   border-radius: 0.5rem;
   background: transparent;
-
+  @include breakpoint("sm") {
+    width: 90vw;
+  }
   &:hover {
     color: $red-on;
     border: 0.3rem solid $red-on;
