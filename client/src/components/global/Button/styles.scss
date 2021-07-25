@@ -2,6 +2,7 @@
 @import "styles/effects";
 
 .button {
+  cursor: pointer;
   font-family: "Caveat", cursive;
   letter-spacing: 0.15rem;
   color: $red-off;
