@@ -49,8 +49,13 @@
   }
 
   &--open {
+    position: absolute;
     width: 100%;
-    height: 20rem;
+
     background-color: $blue-background;
+
+    &__button {
+      width: 98%;
+    }
   }
 }

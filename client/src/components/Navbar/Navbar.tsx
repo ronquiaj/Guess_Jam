@@ -35,12 +35,20 @@ const Navbar: FC = () => {
           <img alt='logo' className='navbar--logo-container__logo' src='/images/logo.png'></img>
         </div>
       </div>
-      {open && (
+      {open && smallScreen && (
         <div className='navbar--open'>
-          <Button> </Button>
-          <Button> </Button>
-          <Button> </Button>
-          <Button> </Button>
+          <Button className='navbar--open__button' variant='blue'>
+            Play
+          </Button>
+          <Button className='navbar--open__button' variant='blue'>
+            About
+          </Button>
+          <Button className='navbar--open__button' variant='blue'>
+            Signup
+          </Button>
+          <Button className='navbar--open__button' variant='blue'>
+            Login
+          </Button>
         </div>
       )}
     </>
