@@ -1,6 +1,5 @@
 import Typography, { Props } from "./Typography";
 import { Meta, Story } from "@storybook/react";
-import { Router } from "@reach/router";
 export default {
   component: Typography,
   title: "global/Typography"

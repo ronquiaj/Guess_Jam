@@ -2,12 +2,21 @@
 @import "styles/effects";
 @import "styles/breakpoints";
 
+@mixin button($color-on, $color-off) {
+  color: $color-off;
+  border: 0.3rem solid $color-off;
+  &:hover {
+    color: $color-on;
+    border: 0.3rem solid $color-on;
+    @include neon(text-shadow, $color-on);
+    @include neon(box-shadow, $color-on);
+  }
+}
+
 .button {
   cursor: pointer;
   font-family: "Caveat", cursive;
   letter-spacing: 0.15rem;
-  color: $red-off;
-  border: 0.3rem solid $red-off;
   width: 25rem;
   font-size: 2rem;
   text-align: center;
@@ -17,10 +26,10 @@
   @include breakpoint("sm") {
     width: 90vw;
   }
-  &:hover {
-    color: $red-on;
-    border: 0.3rem solid $red-on;
-    @include neon(text-shadow, $red-on);
-    @include neon(box-shadow, $red-on);
+  &--blue {
+    @include button($blue-on, $blue-off);
+  }
+  &--red {
+    @include button($red-on, $red-off);
   }
 }

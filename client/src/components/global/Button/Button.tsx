@@ -10,11 +10,12 @@ export type Props = {
    * The function triggered when the button is clicked
    */
   onClick?: () => void;
+  variant?: "red" | "blue";
 };
 
-const Button: FC<Props> = ({ children, onClick }: Props) => {
+const Button: FC<Props> = ({ children, onClick, variant = "red" }: Props) => {
   return (
-    <div className='button' onClick={onClick && (() => onClick())}>
+    <div className={"button button--" + variant} onClick={onClick && (() => onClick())}>
       {children}
     </div>
   );

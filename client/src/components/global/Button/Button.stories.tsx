@@ -6,7 +6,11 @@ export default {
 } as Meta;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<Props> = (args) => <Button onClick={args.onClick}>{args.children}</Button>;
+const Template: Story<Props> = (args) => (
+  <Button variant={args.variant} onClick={args.onClick}>
+    {args.children}
+  </Button>
+);
 
 //👇 Each story then reuses that template
 export const Primary = Template.bind({});
