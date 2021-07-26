@@ -2,6 +2,7 @@
 @import "styles/effects";
 @import "styles/utilities";
 @import "styles/breakpoints";
+@import "styles/animations";
 
 .navbar {
   width: 100%;
@@ -51,9 +52,21 @@
   &--open {
     position: absolute;
     width: 100%;
-
+    overflow: hidden;
+    z-index: -5;
     background-color: $blue-background;
-
+    pointer-events: none;
+    &__show {
+      animation: 0.25s alternate move-down;
+      opacity: 100%;
+      z-index: 5;
+      pointer-events: visible;
+    }
+    &__close {
+      animation: 0.5s alternate move-up;
+      transition: 0.5s all;
+      opacity: 0;
+    }
     &__button {
       width: 98%;
     }
