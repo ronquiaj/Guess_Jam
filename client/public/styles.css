@@ -4,5 +4,8 @@ html {
 }
 
 body {
+  background-position: top;
+  height: 95vh;
   margin: 0;
+  background: url("./images/background.jpg");
 }
