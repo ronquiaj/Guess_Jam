@@ -1,6 +1,6 @@
-@import "styles/colors";
-@import "styles/effects";
-@import "styles/utilities";
+@import "../../../styles/colors.scss";
+@import "../../../styles/effects.scss";
+@import "../../../styles/utilities.scss";
 
 @mixin typography($color-off, $color-on) {
   transition: 500ms all;

@@ -2,3 +2,10 @@ html {
   background-color: black;
   color: white;
 }
+
+body {
+  background-position: top;
+  height: 95vh;
+  margin: 0;
+  background: url("./images/background.jpg");
+}
