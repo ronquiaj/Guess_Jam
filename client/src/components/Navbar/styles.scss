@@ -1,10 +1,10 @@
-@import "styles/colors";
-@import "styles/effects";
-@import "styles/utilities";
+@import "../../styles/colors.scss";
+@import "../../styles/effects.scss";
+@import "../../styles/utilities.scss";
 
 .navbar {
   width: 100%;
-  height: 20vh;
+  height: 10vh;
   background-color: black;
   display: flex;
   flex-direction: row;

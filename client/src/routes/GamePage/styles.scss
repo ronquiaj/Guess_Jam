@@ -1,5 +1,5 @@
-@import "styles/colors";
-@import "styles/effects";
+@import "../../styles/colors.scss";
+@import "../../styles/effects.scss";
 
 .container {
   display: flex;
@@ -7,6 +7,9 @@
   height: 70vh;
   justify-content: flex-end;
   align-items: center;
+  &--ready-set-go {
+    margin-bottom: 5rem;
+  }
   &--button-container {
     display: flex;
     flex-direction: column;
