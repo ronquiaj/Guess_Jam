@@ -14,6 +14,7 @@
 }
 
 .button {
+  background-color: black;
   cursor: pointer;
   font-family: "Caveat", cursive;
   letter-spacing: 0.15rem;
@@ -22,7 +23,6 @@
   text-align: center;
   transition: 500ms all;
   border-radius: 0.5rem;
-  background: transparent;
   @include breakpoint("sm") {
     width: 90vw;
   }

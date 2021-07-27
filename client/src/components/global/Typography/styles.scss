@@ -6,6 +6,7 @@
   transition: 500ms all;
   width: 100%;
   color: $color-off;
+
   &:hover {
     color: $color-on;
     @include neon(text-shadow, $color-on);

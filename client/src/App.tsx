@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import GetRandomSong from "./components/GetRandomSong";
 import Lobby from "./routes/Lobby/Lobby";
 import Error from "./routes/Error/Error";
 import GamePage from "./routes/GamePage/GamePage";

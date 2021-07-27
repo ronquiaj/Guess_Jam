@@ -11,34 +11,35 @@ type Props = {
    * This will most likely a be a set state function that will be triggered when the the ready set go animation is over
    */
   animationOver: () => void;
+
+  countdownWords: string[];
+
   className?: string;
 };
 
-const ReadySetGo: FC<Props> = ({ time, animationOver, className }: Props) => {
+const ReadySetGo: FC<Props> = ({ time, animationOver, className, countdownWords }: Props) => {
   const [index, setIndex] = useState<number>(0);
   const [timerId, setTimerId] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
     setTimerId(
       (setInterval(() => {
-        console.log("here");
         setIndex((val) => val + 1);
       }, time) as unknown) as NodeJS.Timeout
     );
-  }, []);
+  }, [time]);
 
   useEffect(() => {
-    if (index === 3) {
+    if (index === countdownWords.length) {
       timerId && clearInterval(timerId);
       animationOver();
       return () => {};
     }
-  }, [index]);
+  }, [index, animationOver, countdownWords.length, timerId]);
 
-  const readySetGo = ["Ready?", "Set...", "Go!"];
   return (
-    <Typography className={"ready-set-go-text " + className} variant="hot-pink">
-      {readySetGo[index]}
+    <Typography className={"ready-set-go-text " + className} variant='hot-pink'>
+      {countdownWords[index]}
     </Typography>
   );
 };
