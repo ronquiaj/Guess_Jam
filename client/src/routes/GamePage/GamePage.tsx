@@ -5,13 +5,14 @@ import Button from "../../components/global/Button/Button";
 import ReadySetGo from "./components/ReadySetGo/ReadySetGo";
 import GET_TRACKS from "./query";
 import "./styles.scss";
+import playAudio from "../../functions/playAudio";
 
 const GamePage: FC = () => {
   const [score, setScore] = useState<number>(0);
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(false);
   const [cacheTracks, setCacheTracks] = useState<GetTracks_tracks[]>([]);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
-  const [currentSong, setCurrentSong] = useState<string>("");
+  const [currentSong, setCurrentSong] = useState<GetTracks_tracks>();
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
 
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
@@ -37,6 +38,9 @@ const GamePage: FC = () => {
       else {
         const newTracks = cacheTracks.splice(0, 4);
         setCurrentTracks(newTracks);
+        const randomSong = newTracks[Math.floor(Math.random() * newTracks.length)];
+        setCurrentSong(randomSong);
+        playAudio(randomSong.preview_url);
       }
     }
   }, [cacheTracks, getTracks, openingCountdownOver]);
