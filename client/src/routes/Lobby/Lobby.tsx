@@ -6,18 +6,22 @@ import "./styles.scss";
 
 const Lobby: FC = () => {
   return (
-    <div className='lobby-container'>
-      <Typography className='lobby-container--header' variant='hot-pink' light={false}>
+    <div className="lobby-container">
+      <Typography
+        className="lobby-container--header"
+        variant="hot-pink"
+        light={false}
+      >
         The Lobby
       </Typography>
-      <div className='lobby-container--button-container'>
-        <Link className='remove-link' to='/'>
+      <div className="lobby-container--button-container">
+        <Link className="remove-link" to="/">
           <Button>Quick Start</Button>
         </Link>
-        <Link className='remove-link' to='/friend-lobby'>
+        <Link className="remove-link" to="/friend-lobby">
           <Button>Play With Friends</Button>
         </Link>
-        <Link className='remove-link' to='/game'>
+        <Link className="remove-link" to="/game">
           <Button>Solo Game</Button>
         </Link>
       </div>
