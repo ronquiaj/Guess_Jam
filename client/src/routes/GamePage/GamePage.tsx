@@ -41,6 +41,7 @@ const GamePage: FC = () => {
         const randomSong = newTracks[Math.floor(Math.random() * newTracks.length)];
         setCurrentSong(randomSong);
         playAudio(randomSong.preview_url);
+        console.log(randomSong);
       }
     }
   }, [cacheTracks, getTracks, openingCountdownOver]);
@@ -48,6 +49,7 @@ const GamePage: FC = () => {
   return (
     <div className='game-container'>
       <ReadySetGo
+        neon={true}
         countdownWords={["Ready?", "Set...", "Go!"]}
         className='game-container--ready-set-go'
         time={1000}

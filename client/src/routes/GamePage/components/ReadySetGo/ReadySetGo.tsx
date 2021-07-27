@@ -11,13 +11,22 @@ type Props = {
    * This will most likely a be a set state function that will be triggered when the the ready set go animation is over
    */
   animationOver: () => void;
-
+  /**
+   * Prop that specifies whether this ready set go will be permanently in the on color
+   */
+  neon?: boolean;
   countdownWords: string[];
 
   className?: string;
 };
 
-const ReadySetGo: FC<Props> = ({ time, animationOver, className, countdownWords }: Props) => {
+const ReadySetGo: FC<Props> = ({
+  time,
+  animationOver,
+  className,
+  countdownWords,
+  neon = false
+}: Props) => {
   const [index, setIndex] = useState<number>(0);
   const [timerId, setTimerId] = useState<NodeJS.Timeout>();
 
@@ -38,7 +47,7 @@ const ReadySetGo: FC<Props> = ({ time, animationOver, className, countdownWords 
   }, [index, animationOver, countdownWords.length, timerId]);
 
   return (
-    <Typography className={"ready-set-go-text " + className} variant='hot-pink'>
+    <Typography light={false} className={"ready-set-go-text " + className} variant='hot-pink'>
       {countdownWords[index]}
     </Typography>
   );
