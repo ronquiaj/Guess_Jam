@@ -1,5 +1,5 @@
-import { useEffect, FC } from "react";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
+import { useEffect, createContext } from "react";
+import { useHistory } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import App from "./App";
 

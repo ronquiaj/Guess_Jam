@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 export default function useAudio() {
   const [currentSong, setCurrentSong] = useState<string>();
   const [audioPlaying, setAudioPlaying] = useState<HTMLAudioElement | null>();
-  console.log(window.location.pathname);
 
   // If the user leaves the page, remove the song playing
   useEffect(() => {
@@ -19,7 +18,6 @@ export default function useAudio() {
 
   useEffect(() => {
     if (currentSong) {
-      console.log("here");
       const audio = new Audio();
       audio.src = currentSong;
       setAudioPlaying(audio);
