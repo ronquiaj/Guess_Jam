@@ -1,6 +1,8 @@
-import { useEffect, createContext } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { SongProvider } from "./contexts/SongContext";
+import { useSong } from "./contexts/SongContext";
 import App from "./App";
 
 const client = new ApolloClient({
@@ -20,17 +22,20 @@ const client = new ApolloClient({
 
 const Root = () => {
   const history = useHistory();
+  const { setSongPlaying } = useSong();
 
   // Actions that we can enforce on every page change
   useEffect(() => {
     return history.listen((location) => {
-      console.log(`You changed the page to: ${location.pathname}`);
+      setSongPlaying && setSongPlaying("");
     });
   }, [history]);
 
   return (
     <ApolloProvider client={client}>
-      <App />
+      <SongProvider>
+        <App />
+      </SongProvider>
     </ApolloProvider>
   );
 };
