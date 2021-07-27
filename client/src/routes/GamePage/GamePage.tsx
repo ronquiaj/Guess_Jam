@@ -4,9 +4,9 @@ import {
   GetTracks,
   GetTracks_tracks,
 } from "../../components/__generated__/GetTracks";
+import { useSong } from "../../contexts/SongContext";
 import Button from "../../components/global/Button/Button";
 import ReadySetGo from "./components/ReadySetGo/ReadySetGo";
-import useAudio from "../../hooks/useAudio";
 import GET_TRACKS from "./query";
 import "./styles.scss";
 
@@ -19,7 +19,7 @@ const GamePage: FC = () => {
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [chosenSong, setChosenSong] = useState<GetTracks_tracks>();
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
-  const setCurrentSong = useAudio();
+  const { setCurrentSong } = useSong();
 
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
 
@@ -50,8 +50,7 @@ const GamePage: FC = () => {
         const randomSong =
           newTracks[Math.floor(Math.random() * newTracks.length)];
         setChosenSong(randomSong);
-        setCurrentSong(randomSong.preview_url);
-        console.log("here");
+        if (setCurrentSong) setCurrentSong(randomSong.preview_url);
       }
     }
   }, [cacheTracks, getTracks, openingCountdownOver]);

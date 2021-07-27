@@ -14,12 +14,12 @@ type Props = {
 };
 
 type Song = {
-  songPlaying: string;
-  setSongPlaying: Dispatch<SetStateAction<string>> | undefined;
+  currentSong: string;
+  setCurrentSong: Dispatch<SetStateAction<string>> | undefined;
 };
 const SongContext = createContext<Song>({
-  songPlaying: "",
-  setSongPlaying: undefined,
+  currentSong: "",
+  setCurrentSong: undefined,
 });
 
 const useSong = () => {
@@ -32,9 +32,25 @@ const useSong = () => {
 };
 
 const SongProvider: FC<Props> = ({ children }: Props) => {
-  const [songPlaying, setSongPlaying] = useState<string>("shadow of death");
+  const [currentSong, setCurrentSong] = useState<string>("shadow of death");
+  const [activeSong, setActiveSong] = useState<HTMLAudioElement | undefined>();
+
+  // if we play  asong from the game page, then set active song to the audio along with the src, if the current song is changed to blank
+
+  useEffect(() => {
+    if (currentSong) {
+      const audio = new Audio();
+      audio.src = currentSong;
+      setActiveSong(audio);
+      audio.play();
+    } else {
+      activeSong?.pause();
+      setActiveSong(undefined);
+    }
+  }, [currentSong]);
+
   return (
-    <SongContext.Provider value={{ songPlaying, setSongPlaying }}>
+    <SongContext.Provider value={{ currentSong, setCurrentSong }}>
       {children}
     </SongContext.Provider>
   );
