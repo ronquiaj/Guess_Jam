@@ -21,6 +21,7 @@ const client = new ApolloClient({
 const Root = () => {
   const history = useHistory();
 
+  // Actions that we can enforce on every page change
   useEffect(() => {
     return history.listen((location) => {
       console.log(`You changed the page to: ${location.pathname}`);
