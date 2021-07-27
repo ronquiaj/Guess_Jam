@@ -15,7 +15,7 @@ You should now be able to use the Spotify API.
 SPOTIFY_CLIENT_ID=abcdefghiklmf
 SPOTIFY_CLIENT_SECRET=342343423432
 ```
-## Set up a .env file in the frontned directory
+## Set up a .env file in the frontend directory
 
 Set up the Sass path in a .env file in the root of the client directory, and type this if you are MacOS:
 
