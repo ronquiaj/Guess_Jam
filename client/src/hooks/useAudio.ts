@@ -12,7 +12,6 @@ export default function useAudio() {
   // If the user leaves the page, remove the song playing
   useEffect(() => {
     window.addEventListener("beforeunload", () => {
-      console.log("changed");
       audioPlaying?.remove();
       setAudioPlaying(null);
     });
