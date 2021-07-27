@@ -7,6 +7,14 @@
   height: 70vh;
   justify-content: flex-end;
   align-items: center;
+  &--big-button {
+    margin-bottom: 7.5rem;
+    width: 15rem;
+    padding: 1rem;
+    color: $red-on;
+    border: 1px solid $red-on;
+    font-size: 4rem;
+  }
   &--ready-set-go {
     margin-bottom: 5rem;
   }

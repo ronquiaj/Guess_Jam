@@ -9,6 +9,7 @@ import Button from "../../components/global/Button/Button";
 import ReadySetGo from "./components/ReadySetGo/ReadySetGo";
 import GET_TRACKS from "./query";
 import "./styles.scss";
+import Typography from "../../components/global/Typography/Typography";
 
 const GamePage: FC = () => {
   const [score, setScore] = useState<number>(0);
@@ -18,10 +19,12 @@ const GamePage: FC = () => {
   const [cacheTracks, setCacheTracks] = useState<GetTracks_tracks[]>([]);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [chosenSong, setChosenSong] = useState<GetTracks_tracks>();
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong } = useSong();
 
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
+  const startGame = () => setGameStarted(true);
 
   // Gets the tracks after the countdown finishes
   useEffect(() => {
@@ -65,13 +68,22 @@ const GamePage: FC = () => {
 
   return (
     <div className="game-container">
-      <ReadySetGo
-        neon={true}
-        countdownWords={["Ready?", "Set...", "Go!"]}
-        className="game-container--ready-set-go"
-        time={1000}
-        animationOver={closeOpeningCountdown}
-      />
+      {gameStarted ? (
+        <ReadySetGo
+          neon={true}
+          countdownWords={["Ready?", "Set...", "Go!"]}
+          className="game-container--ready-set-go"
+          time={1000}
+          animationOver={closeOpeningCountdown}
+        />
+      ) : (
+        <Button className="game-container--big-button" onClick={startGame}>
+          Start
+        </Button>
+      )}
+      <Typography light={false} variant="hot-pink">
+        Score: <span>{score}</span>
+      </Typography>
       <div className="game-container--button-container">
         <Button onClick={() => alert("Hi")}>
           {currentTracks.length > 0 ? currentTracks[0].name : "Song 1"}
