@@ -23,7 +23,6 @@ const GamePage: FC = () => {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong, stopCurrentSong } = useSong();
-
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -32,6 +31,7 @@ const GamePage: FC = () => {
     if (openingCountdownOver) {
       if (currentTracks.length < 25 && !tracksMet.current) getTracks();
       else {
+        console.log(currentTracks);
         tracksMet.current = true;
         const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
         chosenSong.current = randomSong;
@@ -51,6 +51,9 @@ const GamePage: FC = () => {
   }, [data?.tracks]);
 
   const verifySong = useCallback((songName: string) => {
+    console.log(
+      `Your chosen song: ${songName}, the actual song: ${chosenSong.current?.name}`
+    );
     if (songName === chosenSong.current?.name) {
       alert("Correct");
       score.current += 100;
@@ -58,6 +61,8 @@ const GamePage: FC = () => {
       alert("Incorrect");
       score.current -= 100;
     }
+    const newTracks = cacheTracks.current.slice(4);
+    cacheTracks.current = newTracks;
     setCurrentTracks((tracks) => tracks.splice(4));
   }, []);
 
@@ -97,7 +102,6 @@ const GamePage: FC = () => {
         <Button onClick={() => verifySong(song4.name)}>
           {currentTracks.length > 0 ? song4.name : "Song 4"}
         </Button>
-        <div onClick={() => getTracks()}>Hello</div>
       </div>
     </div>
   );

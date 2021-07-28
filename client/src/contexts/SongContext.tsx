@@ -44,6 +44,7 @@ const SongProvider: FC<Props> = ({ children }: Props) => {
 
   useEffect(() => {
     if (currentSong) {
+      if (activeSong.current) activeSong.current.pause();
       const audio = new Audio();
       audio.src = currentSong;
       setTimeout(() => (activeSong.current = audio), 100);
