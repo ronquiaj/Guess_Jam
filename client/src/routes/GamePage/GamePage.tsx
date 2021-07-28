@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useCallback } from "react";
+import { FC, useState, useEffect, useCallback, useRef } from "react";
 import { useLazyQuery } from "@apollo/client";
 import {
   GetTracks,
@@ -16,9 +16,9 @@ const GamePage: FC = () => {
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
     false
   );
+  const chosenSong = useRef<GetTracks_tracks>();
   const [cacheTracks, setCacheTracks] = useState<GetTracks_tracks[]>([]);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
-  const [chosenSong, setChosenSong] = useState<GetTracks_tracks>();
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong } = useSong();
@@ -43,10 +43,6 @@ const GamePage: FC = () => {
     }
   }, [data?.tracks]);
 
-  useEffect(() => {
-    adjustTracks();
-  }, [adjustTracks]);
-
   // Look at our cache of tracks and see if we need to get a fresh set, otherwise take four of the cacheTracks, and set cacheTracks to that
   const getSongAndCache = useCallback(() => {
     if (openingCountdownOver && cacheTracks) {
@@ -56,7 +52,7 @@ const GamePage: FC = () => {
         setCurrentTracks(newTracks);
         const randomSong =
           newTracks[Math.floor(Math.random() * newTracks.length)];
-        setChosenSong(randomSong);
+        chosenSong.current = randomSong;
         if (setCurrentSong) setCurrentSong(randomSong.preview_url);
       }
     }
@@ -65,6 +61,8 @@ const GamePage: FC = () => {
   useEffect(() => {
     getSongAndCache();
   }, [getSongAndCache]);
+
+  adjustTracks();
 
   return (
     <div className="game-container">
