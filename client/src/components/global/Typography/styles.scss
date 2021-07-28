@@ -37,4 +37,10 @@
       @include typography($hot-pink-off, $hot-pink-on);
     }
   }
+
+  .white {
+    color: $white;
+    &--on {
+    }
+  }
 }

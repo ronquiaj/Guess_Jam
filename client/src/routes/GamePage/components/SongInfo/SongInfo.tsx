@@ -1,12 +1,13 @@
 import { FC } from "react";
+import Typography from "../../../../components/global/Typography/Typography";
 import "./styles.scss";
 
 type Props = {
-  albumName: string;
+  songName: string;
   imageUrl: string;
 };
 
-const SongInfo: FC<Props> = ({ albumName, imageUrl }: Props) => {
+const SongInfo: FC<Props> = ({ songName, imageUrl }: Props) => {
   return (
     <div className="song-info-container">
       <img
@@ -14,7 +15,9 @@ const SongInfo: FC<Props> = ({ albumName, imageUrl }: Props) => {
         src={imageUrl}
         alt="album cover"
       />
-      <div className="song-info-container--album-name">{albumName}</div>
+      <Typography variant="white" className="song-info-container--album-name">
+        {songName}
+      </Typography>
     </div>
   );
 };

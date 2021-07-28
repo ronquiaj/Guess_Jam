@@ -85,7 +85,7 @@ const GamePage: FC = () => {
         </Button>
       )}
       <SongInfo
-        albumName="Test Cover"
+        songName="Test Cover"
         imageUrl="https://variety.com/wp-content/uploads/2021/02/Screen-Shot-2021-02-25-at-8.43.25-PM-e1614314732431.png?w=681&h=383&crop=1"
       />
       <Typography light={false} variant="hot-pink">
