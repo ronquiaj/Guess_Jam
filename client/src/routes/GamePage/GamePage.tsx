@@ -17,7 +17,7 @@ const GamePage: FC = () => {
     false
   );
   const chosenSong = useRef<GetTracks_tracks>();
-  const [cacheTracks, setCacheTracks] = useState<GetTracks_tracks[]>([]);
+  const cacheTracks = useRef<GetTracks_tracks[]>([]);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
@@ -31,24 +31,17 @@ const GamePage: FC = () => {
     if (openingCountdownOver) getTracks();
   }, [openingCountdownOver, getTracks]);
 
-  // When there are tracks coming from the data, then set the tracks to that data. If there is cached tracks, add cached tracks to new data
+  /** Check to see if cacheTracks exists, and if it does then add the newly fetched tracks to this cacheTracks array, otherwise just set cacheTracks to the fetched data. After fetching data,
+  get four of those tracks and then disperse them to the buttons. Subtract four from our cacheTrack array and if there are less than 4 songs then fetch data, and start from step 1 again. **/
   const adjustTracks = useCallback(() => {
     if (data?.tracks) {
-      cacheTracks.length > 0
-        ? setCacheTracks((cache) => [
-            ...cache,
-            ...(data.tracks as GetTracks_tracks[]),
-          ])
-        : setCacheTracks(data.tracks);
-    }
-  }, [data?.tracks]);
+      cacheTracks.current.length > 0
+        ? (cacheTracks.current = [...cacheTracks.current, ...data.tracks])
+        : (cacheTracks.current = data.tracks);
 
-  // Look at our cache of tracks and see if we need to get a fresh set, otherwise take four of the cacheTracks, and set cacheTracks to that
-  const getSongAndCache = useCallback(() => {
-    if (openingCountdownOver && cacheTracks) {
-      if (cacheTracks.length < 4) getTracks();
+      if (cacheTracks.current.length < 4) getTracks();
       else {
-        const newTracks = cacheTracks.splice(0, 4);
+        const newTracks = cacheTracks.current.splice(0, 4);
         setCurrentTracks(newTracks);
         const randomSong =
           newTracks[Math.floor(Math.random() * newTracks.length)];
@@ -56,13 +49,16 @@ const GamePage: FC = () => {
         if (setCurrentSong) setCurrentSong(randomSong.preview_url);
       }
     }
-  }, [cacheTracks, getTracks, openingCountdownOver, setCurrentSong]);
+  }, [data?.tracks, getTracks, setCurrentSong]);
 
   useEffect(() => {
-    getSongAndCache();
-  }, [getSongAndCache]);
+    adjustTracks();
+  }, [adjustTracks]);
 
-  adjustTracks();
+  const song1 = currentTracks[0];
+  const song2 = currentTracks[1];
+  const song3 = currentTracks[2];
+  const song4 = currentTracks[3];
 
   return (
     <div className="game-container">
@@ -84,16 +80,16 @@ const GamePage: FC = () => {
       </Typography>
       <div className="game-container--button-container">
         <Button onClick={() => alert("Hi")}>
-          {currentTracks.length > 0 ? currentTracks[0].name : "Song 1"}
+          {currentTracks.length > 0 ? song1.name : "Song 1"}
         </Button>
         <Button onClick={() => alert("Hi")}>
-          {currentTracks.length > 0 ? currentTracks[1].name : "Song 2"}
+          {currentTracks.length > 0 ? song2.name : "Song 2"}
         </Button>
         <Button onClick={() => alert("Hi")}>
-          {currentTracks.length > 0 ? currentTracks[2].name : "Song 3"}
+          {currentTracks.length > 0 ? song3.name : "Song 3"}
         </Button>
         <Button onClick={() => alert("Hi")}>
-          {currentTracks.length > 0 ? currentTracks[3].name : "Song 4"}
+          {currentTracks.length > 0 ? song4.name : "Song 4"}
         </Button>
       </div>
     </div>
