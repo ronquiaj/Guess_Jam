@@ -14,11 +14,9 @@ function App() {
   // Actions that we can enforce on every page change
   useEffect(() => {
     return history.listen((location) => {
-      if (setCurrentSong) {
-        setCurrentSong("");
-      }
+      setCurrentSong("");
     });
-  }, [history]);
+  }, [history, setCurrentSong]);
 
   return (
     <div className="App">
