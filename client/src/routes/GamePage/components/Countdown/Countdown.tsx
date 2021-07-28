@@ -20,7 +20,7 @@ type Props = {
   className?: string;
 };
 
-const ReadySetGo: FC<Props> = ({
+const Countdown: FC<Props> = ({
   time,
   animationOver,
   className,
@@ -56,4 +56,4 @@ const ReadySetGo: FC<Props> = ({
   );
 };
 
-export default ReadySetGo;
+export default Countdown;

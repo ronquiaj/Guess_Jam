@@ -6,10 +6,11 @@ import {
 } from "../../components/__generated__/GetTracks";
 import { useSong } from "../../contexts/SongContext";
 import Button from "../../components/global/Button/Button";
-import ReadySetGo from "./components/ReadySetGo/ReadySetGo";
+import Countdown from "./components/Countdown/Countdown";
 import GET_TRACKS from "./query";
 import "./styles.scss";
 import Typography from "../../components/global/Typography/Typography";
+import SongInfo from "./components/SongInfo/SongInfo";
 
 const GamePage: FC = () => {
   const score = useRef<number>(0);
@@ -22,7 +23,7 @@ const GamePage: FC = () => {
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
-  const { setCurrentSong, stopCurrentSong } = useSong();
+  const { setCurrentSong } = useSong();
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -35,7 +36,6 @@ const GamePage: FC = () => {
         tracksMet.current = true;
         const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
         chosenSong.current = randomSong;
-        stopCurrentSong();
         setCurrentSong(randomSong.preview_url);
       }
     }
@@ -55,10 +55,8 @@ const GamePage: FC = () => {
       `Your chosen song: ${songName}, the actual song: ${chosenSong.current?.name}`
     );
     if (songName === chosenSong.current?.name) {
-      alert("Correct");
       score.current += 100;
     } else {
-      alert("Incorrect");
       score.current -= 100;
     }
     const newTracks = cacheTracks.current.slice(4);
@@ -74,7 +72,7 @@ const GamePage: FC = () => {
   return (
     <div className="game-container">
       {gameStarted ? (
-        <ReadySetGo
+        <Countdown
           neon={true}
           countdownWords={["Ready?", "Set...", "Go!"]}
           className="game-container--ready-set-go"
@@ -86,6 +84,10 @@ const GamePage: FC = () => {
           Start
         </Button>
       )}
+      <SongInfo
+        albumName="Test Cover"
+        imageUrl="https://variety.com/wp-content/uploads/2021/02/Screen-Shot-2021-02-25-at-8.43.25-PM-e1614314732431.png?w=681&h=383&crop=1"
+      />
       <Typography light={false} variant="hot-pink">
         Score: <span>{score.current}</span>
       </Typography>

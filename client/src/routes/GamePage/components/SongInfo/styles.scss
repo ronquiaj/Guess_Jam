@@ -1,0 +1,13 @@
+@import "styles/colors";
+@import "styles/effects";
+@import "styles/utilities";
+
+.song-info-container {
+  margin-bottom: 2.5rem;
+  &--image {
+    width: 35rem;
+  }
+  &--album-name {
+    text-align: center;
+  }
+}
