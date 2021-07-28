@@ -17,6 +17,7 @@ const GamePage: FC = () => {
   const chosenSong = useRef<GetTracks_tracks>();
   const cacheTracks = useRef<GetTracks_tracks[]>([]);
   const tracksMet = useRef<boolean>(false);
+  const showSongInformation = useRef<boolean>(false);
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
     false
   );
@@ -29,14 +30,18 @@ const GamePage: FC = () => {
 
   // Gets the tracks after the countdown finishes
   useEffect(() => {
+    const setupSong = () => {
+      showSongInformation.current = false;
+      const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
+      chosenSong.current = randomSong;
+      setCurrentSong(randomSong.preview_url);
+    };
+
     if (openingCountdownOver) {
       if (currentTracks.length < 25 && !tracksMet.current) getTracks();
       else {
-        console.log(currentTracks);
         tracksMet.current = true;
-        const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
-        chosenSong.current = randomSong;
-        setCurrentSong(randomSong.preview_url);
+        setTimeout(() => setupSong(), 3000);
       }
     }
   }, [openingCountdownOver, getTracks, currentTracks, setCurrentSong]);
@@ -51,9 +56,6 @@ const GamePage: FC = () => {
   }, [data?.tracks]);
 
   const verifySong = useCallback((songName: string) => {
-    console.log(
-      `Your chosen song: ${songName}, the actual song: ${chosenSong.current?.name}`
-    );
     if (songName === chosenSong.current?.name) {
       score.current += 100;
     } else {
@@ -62,6 +64,7 @@ const GamePage: FC = () => {
     const newTracks = cacheTracks.current.slice(4);
     cacheTracks.current = newTracks;
     setCurrentTracks((tracks) => tracks.splice(4));
+    showSongInformation.current = true;
   }, []);
 
   const song1 = currentTracks[0];
@@ -84,10 +87,12 @@ const GamePage: FC = () => {
           Start
         </Button>
       )}
-      <SongInfo
-        songName="Test Cover"
-        imageUrl="https://variety.com/wp-content/uploads/2021/02/Screen-Shot-2021-02-25-at-8.43.25-PM-e1614314732431.png?w=681&h=383&crop=1"
-      />
+      {chosenSong.current && showSongInformation.current && (
+        <SongInfo
+          songName={chosenSong.current.name}
+          imageUrl={chosenSong.current.album.album_cover}
+        />
+      )}
       <Typography light={false} variant="hot-pink">
         Score: <span>{score.current}</span>
       </Typography>
