@@ -10,7 +10,8 @@
   height: 70vh;
   &--header {
     height: 50%;
-    font-size: 6rem;
+    font-size: 10rem;
+    color: $hot-pink-on;
     @include breakpoint("sm") {
       font-size: 4.5rem;
     }
