@@ -21,7 +21,7 @@
   width: 45rem;
   font-size: 2rem;
   text-align: center;
-  transition: 500ms all;
+  transition: 500ms ease;
   border-radius: 0.5rem;
   @include breakpoint("sm") {
     width: 90vw;

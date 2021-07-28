@@ -3,7 +3,7 @@
 @import "styles/utilities.scss";
 
 @mixin typography($color-off, $color-on) {
-  transition: 500ms all;
+  transition: 500ms ease;
   width: 100%;
   color: $color-off;
 
