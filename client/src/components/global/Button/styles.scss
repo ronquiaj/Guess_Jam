@@ -18,12 +18,12 @@
   cursor: pointer;
   font-family: "Caveat", cursive;
   letter-spacing: 0.15rem;
-  width: 45rem;
-  font-size: 2rem;
+  width: 55rem;
+  font-size: 2.5rem;
   text-align: center;
   transition: 500ms ease;
   border-radius: 0.5rem;
-  margin: 0.2rem;
+  margin: 1rem;
   @include breakpoint("sm") {
     width: 90vw;
     font-size: 1.7rem;

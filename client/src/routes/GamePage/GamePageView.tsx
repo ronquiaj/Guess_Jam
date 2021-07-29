@@ -47,17 +47,21 @@ const GamePageView: FC<Props> = ({
 
   return (
     <div className="game-container">
-      <div className="game-container">
+      <div className="game-container--tools">Left</div>
+      <div className="game-container--main">
         {gameStarted ? (
           <Countdown
             neon={true}
             countdownWords={["Ready?", "Set...", "Go!"]}
-            className="game-container--ready-set-go"
+            className="game-container--main--ready-set-go"
             time={1000}
             animationOver={closeOpeningCountdown}
           />
         ) : (
-          <Button className="game-container--big-button" onClick={startGame}>
+          <Button
+            className="game-container--main--big-button"
+            onClick={startGame}
+          >
             Start
           </Button>
         )}
@@ -73,11 +77,12 @@ const GamePageView: FC<Props> = ({
         <ButtonContainer
           className={`game--button-container ${
             !openingCountdownOver &&
-            "game-container--button-container--disabled"
+            "game-container--main--button-container--disabled"
           }`}
           buttons={buttons.buttons}
         />
       </div>
+      <div className="game-container--info">Hello</div>
     </div>
   );
 };
