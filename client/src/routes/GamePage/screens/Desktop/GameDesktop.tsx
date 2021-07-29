@@ -46,19 +46,19 @@ const GameDesktop: FC<Props> = ({
   };
 
   return (
-    <div className="gamepage-container">
-      <div className="gamepage-container--center-col">
+    <div className="gamepage-container--desktop">
+      <div className="gamepage-container--desktop--center-col">
         {gameStarted ? (
           <Countdown
             neon={true}
             countdownWords={["Ready?", "Set...", "Go!"]}
-            className="gamepage-container--center-col--ready-set-go"
+            className="gamepage-container--desktop--center-col--ready-set-go"
             time={1000}
             animationOver={closeOpeningCountdown}
           />
         ) : (
           <Button
-            className="gamepage-container--center-col--big-button"
+            className="gamepage-container--desktop--center-col--big-button"
             onClick={startGame}
           >
             Start
@@ -76,7 +76,7 @@ const GameDesktop: FC<Props> = ({
         <ButtonContainer
           className={`gamepage--button-container ${
             !openingCountdownOver &&
-            "gamepage-container--center-col--button-container--disabled"
+            "gamepage-container--desktop--center-col--button-container--disabled"
           }`}
           buttons={buttons.buttons}
         />

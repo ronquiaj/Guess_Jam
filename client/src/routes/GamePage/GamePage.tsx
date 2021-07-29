@@ -9,6 +9,7 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 import GameDesktop from "./screens/Desktop/GameDesktop";
 import GET_TRACKS from "./query";
 import "./styles.scss";
+import GameMobile from "./screens/Mobile/GameMobile";
 
 const GamePage: FC = () => {
   const score = useRef<number>(0);
@@ -26,6 +27,7 @@ const GamePage: FC = () => {
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong, stopCurrentSong } = useSong();
   const { width } = useWindowDimensions();
+  const smallScreen = 660 >= width;
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -71,23 +73,43 @@ const GamePage: FC = () => {
 
   return (
     <>
-      <GameDesktop
-        chosenSong={chosenSong}
-        closeOpeningCountdown={closeOpeningCountdown}
-        gameStarted={gameStarted}
-        startGame={startGame}
-        score={score}
-        showSongInformation={showSongInformation}
-        songs={[
-          currentTracks[0],
-          currentTracks[1],
-          currentTracks[2],
-          currentTracks[3],
-        ]}
-        verifySong={verifySong}
-        currentTracks={currentTracks}
-        openingCountdownOver={openingCountdownOver}
-      />
+      {!smallScreen ? (
+        <GameDesktop
+          chosenSong={chosenSong}
+          closeOpeningCountdown={closeOpeningCountdown}
+          gameStarted={gameStarted}
+          startGame={startGame}
+          score={score}
+          showSongInformation={showSongInformation}
+          songs={[
+            currentTracks[0],
+            currentTracks[1],
+            currentTracks[2],
+            currentTracks[3],
+          ]}
+          verifySong={verifySong}
+          currentTracks={currentTracks}
+          openingCountdownOver={openingCountdownOver}
+        />
+      ) : (
+        <GameMobile
+          chosenSong={chosenSong}
+          closeOpeningCountdown={closeOpeningCountdown}
+          gameStarted={gameStarted}
+          startGame={startGame}
+          score={score}
+          showSongInformation={showSongInformation}
+          songs={[
+            currentTracks[0],
+            currentTracks[1],
+            currentTracks[2],
+            currentTracks[3],
+          ]}
+          verifySong={verifySong}
+          currentTracks={currentTracks}
+          openingCountdownOver={openingCountdownOver}
+        />
+      )}
     </>
   );
 };
