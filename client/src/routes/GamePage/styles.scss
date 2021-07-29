@@ -16,6 +16,19 @@
   &--info {
     width: 30%;
     border: 5px solid pink;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--time-remaining {
+      font-size: 4rem;
+      margin-top: 3rem;
+    }
+
+    &--rounds-left {
+      font-size: 4rem;
+      margin: 2rem 0;
+    }
   }
 
   &--main {

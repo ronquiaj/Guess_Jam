@@ -65,12 +65,6 @@ const GamePageView: FC<Props> = ({
             Start
           </Button>
         )}
-        {chosenSong.current && showSongInformation.current && (
-          <SongInfo
-            songName={chosenSong.current.name}
-            imageUrl={chosenSong.current.album.album_cover}
-          />
-        )}
         <Typography light={false} variant="hot-pink">
           Score: <span>{score.current}</span>
         </Typography>
@@ -82,7 +76,27 @@ const GamePageView: FC<Props> = ({
           buttons={buttons.buttons}
         />
       </div>
-      <div className="game-container--info">Hello</div>
+      <div className="game-container--info">
+        <Typography
+          className="game-container--info--time-remaining"
+          variant="white"
+        >
+          Time remaining: {}
+        </Typography>
+        <Typography
+          className="game-container--info--rounds-left"
+          variant="white"
+        >
+          Rounds left: {}
+        </Typography>
+
+        {chosenSong.current && showSongInformation.current && (
+          <SongInfo
+            songName={chosenSong.current.name}
+            imageUrl={chosenSong.current.album.album_cover}
+          />
+        )}
+      </div>
     </div>
   );
 };
