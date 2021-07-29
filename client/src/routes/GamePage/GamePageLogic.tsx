@@ -5,10 +5,8 @@ import {
   GetTracks_tracks,
 } from "../../components/__generated__/GetTracks";
 import { useSong } from "../../contexts/SongContext";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
 import GamePageView from "./GamePageView";
 import GET_TRACKS from "./query";
-import "./styles.scss";
 
 const GamePageLogic: FC = () => {
   const score = useRef<number>(0);
@@ -25,7 +23,6 @@ const GamePageLogic: FC = () => {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong, stopCurrentSong } = useSong();
-  const { width } = useWindowDimensions();
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -86,6 +83,7 @@ const GamePageLogic: FC = () => {
         ]}
         verifySong={verifySong}
         currentTracks={currentTracks}
+        openingCountdownOver={openingCountdownOver}
       />
     </>
   );

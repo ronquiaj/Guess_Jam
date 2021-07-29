@@ -1,6 +1,7 @@
 import { FC, MutableRefObject } from "react";
 import Button from "../../components/global/Button/Button";
 import Typography from "../../components/global/Typography/Typography";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { GetTracks_tracks } from "../../components/__generated__/GetTracks";
 import ButtonContainer from "./components/ButtonContainer/ButtonContainer";
 import Countdown from "./components/Countdown/Countdown";
@@ -17,6 +18,7 @@ type Props = {
   songs: GetTracks_tracks[];
   verifySong: (songName: string) => void;
   currentTracks: GetTracks_tracks[];
+  openingCountdownOver: boolean;
 };
 
 const GamePageView: FC<Props> = ({
@@ -29,7 +31,9 @@ const GamePageView: FC<Props> = ({
   songs,
   verifySong,
   currentTracks,
+  openingCountdownOver,
 }: Props) => {
+  const { width } = useWindowDimensions();
   const buttons = {
     buttons: songs.map((song, index) => ({
       buttonName: song && song.name,
@@ -42,21 +46,18 @@ const GamePageView: FC<Props> = ({
   };
 
   return (
-    <div className="gamepage-container">
-      <div className="gamepage-container--center-col">
+    <div className="game-container">
+      <div className="game-container">
         {gameStarted ? (
           <Countdown
             neon={true}
             countdownWords={["Ready?", "Set...", "Go!"]}
-            className="gamepage-container--center-col--ready-set-go"
+            className="game-container--ready-set-go"
             time={1000}
             animationOver={closeOpeningCountdown}
           />
         ) : (
-          <Button
-            className="gamepage-container--center-col--big-button"
-            onClick={startGame}
-          >
+          <Button className="game-container--big-button" onClick={startGame}>
             Start
           </Button>
         )}
@@ -69,7 +70,13 @@ const GamePageView: FC<Props> = ({
         <Typography light={false} variant="hot-pink">
           Score: <span>{score.current}</span>
         </Typography>
-        <ButtonContainer buttons={buttons.buttons} />
+        <ButtonContainer
+          className={`game--button-container ${
+            !openingCountdownOver &&
+            "game-container--button-container--disabled"
+          }`}
+          buttons={buttons.buttons}
+        />
       </div>
     </div>
   );
