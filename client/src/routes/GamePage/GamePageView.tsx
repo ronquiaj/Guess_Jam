@@ -1,12 +1,10 @@
 import { FC, MutableRefObject } from "react";
-import Button from "../../../../components/global/Button/Button";
-import Typography from "../../../../components/global/Typography/Typography";
-import { GetTracks_tracks } from "../../../../components/__generated__/GetTracks";
-import ButtonContainer, {
-  Props as ButtonContainerProps,
-} from "../../components/ButtonContainer/ButtonContainer";
-import Countdown from "../../components/Countdown/Countdown";
-import SongInfo from "../../components/SongInfo/SongInfo";
+import Button from "../../components/global/Button/Button";
+import Typography from "../../components/global/Typography/Typography";
+import { GetTracks_tracks } from "../../components/__generated__/GetTracks";
+import ButtonContainer from "./components/ButtonContainer/ButtonContainer";
+import Countdown from "./components/Countdown/Countdown";
+import SongInfo from "./components/SongInfo/SongInfo";
 import "./styles.scss";
 
 type Props = {
@@ -21,7 +19,7 @@ type Props = {
   currentTracks: GetTracks_tracks[];
 };
 
-const GameDesktop: FC<Props> = ({
+const GamePageView: FC<Props> = ({
   gameStarted,
   closeOpeningCountdown,
   startGame,
@@ -77,4 +75,4 @@ const GameDesktop: FC<Props> = ({
   );
 };
 
-export default GameDesktop;
+export default GamePageView;

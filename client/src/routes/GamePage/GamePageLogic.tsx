@@ -6,11 +6,11 @@ import {
 } from "../../components/__generated__/GetTracks";
 import { useSong } from "../../contexts/SongContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import GameDesktop from "./screens/Desktop/GameDesktop";
+import GamePageView from "./GamePageView";
 import GET_TRACKS from "./query";
 import "./styles.scss";
 
-const GamePage: FC = () => {
+const GamePageLogic: FC = () => {
   const score = useRef<number>(0);
   const chosenSong = useRef<GetTracks_tracks>();
   const cacheTracks = useRef<GetTracks_tracks[]>([]);
@@ -71,7 +71,7 @@ const GamePage: FC = () => {
 
   return (
     <>
-      <GameDesktop
+      <GamePageView
         chosenSong={chosenSong}
         closeOpeningCountdown={closeOpeningCountdown}
         gameStarted={gameStarted}
@@ -91,4 +91,4 @@ const GamePage: FC = () => {
   );
 };
 
-export default GamePage;
+export default GamePageLogic;
