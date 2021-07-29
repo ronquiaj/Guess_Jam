@@ -5,13 +5,11 @@ import {
   GetTracks_tracks,
 } from "../../components/__generated__/GetTracks";
 import { useSong } from "../../contexts/SongContext";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import Button from "../../components/global/Button/Button";
-import Countdown from "./components/Countdown/Countdown";
+import GameDesktop from "./screens/Desktop/GameDesktop";
 import GET_TRACKS from "./query";
 import "./styles.scss";
-import Typography from "../../components/global/Typography/Typography";
-import SongInfo from "./components/SongInfo/SongInfo";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const GamePage: FC = () => {
   const score = useRef<number>(0);
@@ -60,8 +58,6 @@ const GamePage: FC = () => {
     }
   }, [data?.tracks]);
 
-  useEffect(() => {}, []);
-
   const verifySong = useCallback((songName: string) => {
     if (songName === chosenSong.current?.name) {
       score.current += 100;
@@ -80,54 +76,35 @@ const GamePage: FC = () => {
   const song4 = currentTracks[3];
 
   return (
-    <div className="gamepage-container">
-      <div className="gamepage-container--center-col">
-        {gameStarted ? (
-          <Countdown
-            neon={true}
-            countdownWords={["Ready?", "Set...", "Go!"]}
-            className="gamepage-container--center-col--ready-set-go"
-            time={1000}
-            animationOver={closeOpeningCountdown}
-          />
-        ) : (
-          <Button
-            className="gamepage-container--center-col--big-button"
-            onClick={startGame}
-          >
-            Start
-          </Button>
-        )}
-        {chosenSong.current && showSongInformation.current && (
-          <SongInfo
-            songName={chosenSong.current.name}
-            imageUrl={chosenSong.current.album.album_cover}
-          />
-        )}
-        <Typography light={false} variant="hot-pink">
-          Score: <span>{score.current}</span>
-        </Typography>
-        <div
-          className={`gamepage-container--center-col--button-container ${
-            !openingCountdownOver &&
-            "gamepage-container--center-col--button-container--disabled"
-          }`}
-        >
-          <Button onClick={() => verifySong(song1.name)}>
-            {currentTracks.length > 0 ? song1.name : "Song 1"}
-          </Button>
-          <Button onClick={() => verifySong(song2.name)}>
-            {currentTracks.length > 0 ? song2.name : "Song 2"}
-          </Button>
-          <Button onClick={() => verifySong(song3.name)}>
-            {currentTracks.length > 0 ? song3.name : "Song 3"}
-          </Button>
-          <Button onClick={() => verifySong(song4.name)}>
-            {currentTracks.length > 0 ? song4.name : "Song 4"}
-          </Button>
-        </div>
+    <>
+      <GameDesktop
+        chosenSong={chosenSong}
+        closeOpeningCountdown={closeOpeningCountdown}
+        gameStarted={gameStarted}
+        startGame={startGame}
+        score={score}
+        showSongInformation={showSongInformation}
+      />
+      <div
+        className={`gamepage--button-container ${
+          !openingCountdownOver &&
+          "gamepage-container--center-col--button-container--disabled"
+        }`}
+      >
+        <Button onClick={() => verifySong(song1.name)}>
+          {currentTracks.length > 0 ? song1.name : "Song 1"}
+        </Button>
+        <Button onClick={() => verifySong(song2.name)}>
+          {currentTracks.length > 0 ? song2.name : "Song 2"}
+        </Button>
+        <Button onClick={() => verifySong(song3.name)}>
+          {currentTracks.length > 0 ? song3.name : "Song 3"}
+        </Button>
+        <Button onClick={() => verifySong(song4.name)}>
+          {currentTracks.length > 0 ? song4.name : "Song 4"}
+        </Button>
       </div>
-    </div>
+    </>
   );
 };
 
