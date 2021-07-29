@@ -14,20 +14,18 @@ function App() {
   // Actions that we can enforce on every page change
   useEffect(() => {
     return history.listen((location) => {
-      if (setCurrentSong) {
-        setCurrentSong("");
-      }
+      setCurrentSong("");
     });
-  }, [history]);
+  }, [history, setCurrentSong]);
 
   return (
-    <div className="App">
+    <div className='App'>
       <Navbar />
       <Switch>
-        <Route exact path="/" render={() => <Landing />} />
-        <Route exact path="/lobby" render={() => <Lobby />} />
-        <Route exact path="/game" render={() => <GamePage />} />
-        <Route path="*" render={() => <Error />} />
+        <Route exact path='/' render={() => <Landing />} />
+        <Route exact path='/lobby' render={() => <Lobby />} />
+        <Route exact path='/game' render={() => <GamePage />} />
+        <Route path='*' render={() => <Error />} />
       </Switch>
     </div>
   );

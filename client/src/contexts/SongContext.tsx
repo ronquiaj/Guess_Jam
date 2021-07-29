@@ -7,6 +7,7 @@ import {
   Dispatch,
   SetStateAction,
   useEffect,
+  useRef
 } from "react";
 
 type Props = {
@@ -15,42 +16,46 @@ type Props = {
 
 type Song = {
   currentSong: string;
-  setCurrentSong: Dispatch<SetStateAction<string>> | undefined;
+  setCurrentSong: Dispatch<SetStateAction<string>>;
+  stopCurrentSong: () => void;
 };
 const SongContext = createContext<Song>({
   currentSong: "",
-  setCurrentSong: undefined,
+  setCurrentSong: () => {},
+  stopCurrentSong: () => {}
 });
 
 const useSong = () => {
   const context = useContext(SongContext);
 
-  if (context === undefined)
-    throw new Error("useSong must be used with SongProvider.");
+  if (context === undefined) throw new Error("useSong must be used with SongProvider.");
 
   return context;
 };
 
 const SongProvider: FC<Props> = ({ children }: Props) => {
-  const [currentSong, setCurrentSong] = useState<string>("shadow of death");
-  const [activeSong, setActiveSong] = useState<HTMLAudioElement | undefined>();
+  const [currentSong, setCurrentSong] = useState<string>("");
+  const activeSong = useRef<HTMLAudioElement | undefined>();
 
-  // if we play  asong from the game page, then set active song to the audio along with the src, if the current song is changed to blank
+  const stopCurrentSong = () => {
+    setCurrentSong("");
+  };
 
   useEffect(() => {
     if (currentSong) {
+      if (activeSong.current) activeSong.current.pause();
       const audio = new Audio();
       audio.src = currentSong;
-      setActiveSong(audio);
+      setTimeout(() => (activeSong.current = audio), 100);
       audio.play();
     } else {
-      activeSong?.pause();
-      setActiveSong(undefined);
+      activeSong.current?.pause();
+      activeSong.current = undefined;
     }
   }, [currentSong]);
 
   return (
-    <SongContext.Provider value={{ currentSong, setCurrentSong }}>
+    <SongContext.Provider value={{ currentSong, setCurrentSong, stopCurrentSong }}>
       {children}
     </SongContext.Provider>
   );

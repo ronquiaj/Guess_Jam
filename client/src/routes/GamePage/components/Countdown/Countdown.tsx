@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Typography from "../../../../components/global/Typography/Typography";
 import "./styles.scss";
 
@@ -20,37 +20,40 @@ type Props = {
   className?: string;
 };
 
-const ReadySetGo: FC<Props> = ({
+const Countdown: FC<Props> = ({
   time,
   animationOver,
   className,
   countdownWords,
-  neon = false
+  neon = false,
 }: Props) => {
   const [index, setIndex] = useState<number>(0);
-  const [timerId, setTimerId] = useState<NodeJS.Timeout>();
+  const timerId = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    setTimerId(
-      (setInterval(() => {
-        setIndex((val) => val + 1);
-      }, time) as unknown) as NodeJS.Timeout
-    );
+    timerId.current = (setInterval(
+      () => setIndex((val) => val + 1),
+      time
+    ) as unknown) as NodeJS.Timeout;
   }, [time]);
 
   useEffect(() => {
     if (index === countdownWords.length) {
-      timerId && clearInterval(timerId);
+      timerId.current && clearInterval(timerId.current);
       animationOver();
       return () => {};
     }
   }, [index, animationOver, countdownWords.length, timerId]);
 
   return (
-    <Typography light={false} className={"ready-set-go-text " + className} variant='hot-pink'>
+    <Typography
+      light={false}
+      className={"ready-set-go-text " + className}
+      variant="hot-pink"
+    >
       {countdownWords[index]}
     </Typography>
   );
 };
 
-export default ReadySetGo;
+export default Countdown;

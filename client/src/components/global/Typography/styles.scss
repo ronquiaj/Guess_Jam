@@ -20,7 +20,7 @@
   .blue {
     color: $blue-on;
     &--on {
-      @include typography($blue-off, $blue-on);
+      @include typography($blue-on, $blue-on);
     }
   }
 

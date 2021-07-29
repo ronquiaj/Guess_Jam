@@ -23,6 +23,7 @@
   text-align: center;
   transition: 500ms ease;
   border-radius: 0.5rem;
+  margin: 0.2rem;
   @include breakpoint("sm") {
     width: 90vw;
   }

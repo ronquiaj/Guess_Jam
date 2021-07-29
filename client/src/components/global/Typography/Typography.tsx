@@ -3,7 +3,7 @@ import "./styles.scss";
 
 export type Props = {
   children: any;
-  variant: "red" | "blue" | "hot-pink";
+  variant: "red" | "blue" | "hot-pink" | "white";
   /**
    * Whether or not this typography will light up on hover
    */

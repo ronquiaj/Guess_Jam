@@ -7,4 +7,14 @@ body {
   height: 95vh;
   margin: 0;
   background: url("./images/background.png");
+  animation: move 100s linear infinite;
+}
+
+@keyframes move {
+  from {
+    background-position: left;
+  }
+  to {
+    background-position: right;
+  }
 }
