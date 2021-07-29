@@ -19,6 +19,7 @@ type Props = {
   songs: GetTracks_tracks[];
   verifySong: (songName: string) => void;
   currentTracks: GetTracks_tracks[];
+  openingCountdownOver: boolean;
 };
 
 const GameDesktop: FC<Props> = ({
@@ -31,6 +32,7 @@ const GameDesktop: FC<Props> = ({
   songs,
   verifySong,
   currentTracks,
+  openingCountdownOver,
 }: Props) => {
   const buttons = {
     buttons: songs.map((song, index) => ({
@@ -71,7 +73,13 @@ const GameDesktop: FC<Props> = ({
         <Typography light={false} variant="hot-pink">
           Score: <span>{score.current}</span>
         </Typography>
-        <ButtonContainer buttons={buttons.buttons} />
+        <ButtonContainer
+          className={`gamepage--button-container ${
+            !openingCountdownOver &&
+            "gamepage-container--center-col--button-container--disabled"
+          }`}
+          buttons={buttons.buttons}
+        />
       </div>
     </div>
   );

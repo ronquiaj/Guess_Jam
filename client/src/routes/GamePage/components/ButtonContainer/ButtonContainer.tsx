@@ -13,16 +13,12 @@ export type Props = {
       alternateName: string;
     };
   }[];
+  className?: string;
 };
 
-const ButtonContainer: FC<Props> = ({ buttons }: Props) => {
+const ButtonContainer: FC<Props> = ({ buttons, className }: Props) => {
   return (
-    <div
-    //   className={`gamepage--button-container ${
-    //     !openingCountdownOver &&
-    //     "gamepage-container--center-col--button-container--disabled"
-    //   }`}
-    >
+    <div className={className}>
       {buttons.map((button) => (
         <Button onClick={button.onClick}>
           {button.condition

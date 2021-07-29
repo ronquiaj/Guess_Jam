@@ -86,6 +86,7 @@ const GamePage: FC = () => {
         ]}
         verifySong={verifySong}
         currentTracks={currentTracks}
+        openingCountdownOver={openingCountdownOver}
       />
     </>
   );
