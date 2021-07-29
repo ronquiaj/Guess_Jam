@@ -26,6 +26,7 @@
   margin: 0.2rem;
   @include breakpoint("sm") {
     width: 90vw;
+    font-size: 1.7rem;
   }
   &--blue {
     @include button($blue-on, $blue-off);

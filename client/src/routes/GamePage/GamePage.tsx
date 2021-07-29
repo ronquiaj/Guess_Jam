@@ -1,6 +1,9 @@
 import { FC, useState, useEffect, useCallback, useRef } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { GetTracks, GetTracks_tracks } from "../../components/__generated__/GetTracks";
+import {
+  GetTracks,
+  GetTracks_tracks,
+} from "../../components/__generated__/GetTracks";
 import { useSong } from "../../contexts/SongContext";
 import Button from "../../components/global/Button/Button";
 import Countdown from "./components/Countdown/Countdown";
@@ -8,6 +11,7 @@ import GET_TRACKS from "./query";
 import "./styles.scss";
 import Typography from "../../components/global/Typography/Typography";
 import SongInfo from "./components/SongInfo/SongInfo";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const GamePage: FC = () => {
   const score = useRef<number>(0);
@@ -15,11 +19,16 @@ const GamePage: FC = () => {
   const cacheTracks = useRef<GetTracks_tracks[]>([]);
   const tracksMet = useRef<boolean>(false);
   const showSongInformation = useRef<boolean>(false);
-  const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(false);
+  const timerId = useRef<NodeJS.Timeout>();
+  const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
+    false
+  );
+  const [rounds, setRounds] = useState(10);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong, stopCurrentSong } = useSong();
+  const { width } = useWindowDimensions();
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -35,8 +44,9 @@ const GamePage: FC = () => {
     if (openingCountdownOver) {
       if (currentTracks.length < 25 && !tracksMet.current) getTracks();
       else {
+        if (tracksMet.current) setTimeout(() => setupSong(), 3000);
+        else setupSong();
         tracksMet.current = true;
-        setTimeout(() => setupSong(), 3000);
       }
     }
   }, [openingCountdownOver, getTracks, currentTracks, setCurrentSong]);
@@ -70,45 +80,52 @@ const GamePage: FC = () => {
   const song4 = currentTracks[3];
 
   return (
-    <div className='game-container'>
-      {gameStarted ? (
-        <Countdown
-          neon={true}
-          countdownWords={["Ready?", "Set...", "Go!"]}
-          className='game-container--ready-set-go'
-          time={1000}
-          animationOver={closeOpeningCountdown}
-        />
-      ) : (
-        <Button className='game-container--big-button' onClick={startGame}>
-          Start
-        </Button>
-      )}
-      {chosenSong.current && showSongInformation.current && (
-        <SongInfo
-          songName={chosenSong.current.name}
-          imageUrl={chosenSong.current.album.album_cover}
-        />
-      )}
-      <Typography light={false} variant='hot-pink'>
-        Score: <span>{score.current}</span>
-      </Typography>
-      <div
-        className={`game-container--button-container ${
-          !openingCountdownOver && "game-container--button-container--disabled"
-        }`}>
-        <Button onClick={() => verifySong(song1.name)}>
-          {currentTracks.length > 0 ? song1.name : "Song 1"}
-        </Button>
-        <Button onClick={() => verifySong(song2.name)}>
-          {currentTracks.length > 0 ? song2.name : "Song 2"}
-        </Button>
-        <Button onClick={() => verifySong(song3.name)}>
-          {currentTracks.length > 0 ? song3.name : "Song 3"}
-        </Button>
-        <Button onClick={() => verifySong(song4.name)}>
-          {currentTracks.length > 0 ? song4.name : "Song 4"}
-        </Button>
+    <div className="gamepage-container">
+      <div className="gamepage-container--center-col">
+        {gameStarted ? (
+          <Countdown
+            neon={true}
+            countdownWords={["Ready?", "Set...", "Go!"]}
+            className="gamepage-container--center-col--ready-set-go"
+            time={1000}
+            animationOver={closeOpeningCountdown}
+          />
+        ) : (
+          <Button
+            className="gamepage-container--center-col--big-button"
+            onClick={startGame}
+          >
+            Start
+          </Button>
+        )}
+        {chosenSong.current && showSongInformation.current && (
+          <SongInfo
+            songName={chosenSong.current.name}
+            imageUrl={chosenSong.current.album.album_cover}
+          />
+        )}
+        <Typography light={false} variant="hot-pink">
+          Score: <span>{score.current}</span>
+        </Typography>
+        <div
+          className={`gamepage-container--center-col--button-container ${
+            !openingCountdownOver &&
+            "gamepage-container--center-col--button-container--disabled"
+          }`}
+        >
+          <Button onClick={() => verifySong(song1.name)}>
+            {currentTracks.length > 0 ? song1.name : "Song 1"}
+          </Button>
+          <Button onClick={() => verifySong(song2.name)}>
+            {currentTracks.length > 0 ? song2.name : "Song 2"}
+          </Button>
+          <Button onClick={() => verifySong(song3.name)}>
+            {currentTracks.length > 0 ? song3.name : "Song 3"}
+          </Button>
+          <Button onClick={() => verifySong(song4.name)}>
+            {currentTracks.length > 0 ? song4.name : "Song 4"}
+          </Button>
+        </div>
       </div>
     </div>
   );
