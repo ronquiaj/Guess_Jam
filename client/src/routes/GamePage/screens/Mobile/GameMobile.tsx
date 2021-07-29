@@ -49,13 +49,15 @@ const GameMobile: FC<Props> = ({
     <div className="gamepage-container--mobile">
       <div className="gamepage-container--mobile--center-col">
         {gameStarted ? (
-          <Countdown
-            neon={true}
-            countdownWords={["Ready?", "Set...", "Go!"]}
-            className="gamepage-container--mobile--center-col--ready-set-go"
-            time={1000}
-            animationOver={closeOpeningCountdown}
-          />
+          !openingCountdownOver && (
+            <Countdown
+              neon={true}
+              countdownWords={["Ready?", "Set...", "Go!"]}
+              className="gamepage-container--mobile--center-col--ready-set-go"
+              time={1000}
+              animationOver={closeOpeningCountdown}
+            />
+          )
         ) : (
           <Button
             className="gamepage-container--mobile--center-col--big-button"

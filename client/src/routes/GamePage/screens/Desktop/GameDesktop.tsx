@@ -49,13 +49,15 @@ const GameDesktop: FC<Props> = ({
     <div className="gamepage-container--desktop">
       <div className="gamepage-container--desktop--center-col">
         {gameStarted ? (
-          <Countdown
-            neon={true}
-            countdownWords={["Ready?", "Set...", "Go!"]}
-            className="gamepage-container--desktop--center-col--ready-set-go"
-            time={1000}
-            animationOver={closeOpeningCountdown}
-          />
+          !openingCountdownOver && (
+            <Countdown
+              neon={true}
+              countdownWords={["Ready?", "Set...", "Go!"]}
+              className="gamepage-container--desktop--center-col--ready-set-go"
+              time={1000}
+              animationOver={closeOpeningCountdown}
+            />
+          )
         ) : (
           <Button
             className="gamepage-container--desktop--center-col--big-button"
