@@ -7,7 +7,7 @@ type Props = {
   imageUrl: string;
 };
 
-const SongInfo: FC<Props> = ({ songName, imageUrl, className }: Props) => {
+const SongInfo: FC<Props> = ({ songName, imageUrl }: Props) => {
   return (
     <div className="song-info-container">
       <img

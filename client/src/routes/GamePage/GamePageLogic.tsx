@@ -19,6 +19,7 @@ const GamePageLogic: FC = () => {
     false
   );
   const [rounds, setRounds] = useState(10);
+  const totalRounds = useRef<number>(rounds);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
@@ -36,14 +37,18 @@ const GamePageLogic: FC = () => {
     };
 
     if (openingCountdownOver) {
-      if (currentTracks.length < 25 && !tracksMet.current) getTracks();
+      if (currentTracks.length < totalRounds.current * 4 && !tracksMet.current)
+        getTracks();
       else {
+        if (rounds === 0) alert("done");
         if (tracksMet.current) setTimeout(() => setupSong(), 3000);
         else setupSong();
         tracksMet.current = true;
       }
     }
-  }, [openingCountdownOver, getTracks, currentTracks, setCurrentSong]);
+  }, [openingCountdownOver, getTracks, currentTracks, setCurrentSong, rounds]);
+
+  console.log(cacheTracks.current.length);
 
   /** Check to see if cacheTracks exists, and if it does then add the newly fetched tracks to this cacheTracks array, otherwise just set cacheTracks to the fetched data. After fetching data,
   get four of those tracks and then disperse them to the buttons. Subtract four from our cacheTrack array and if there are less than 4 songs then fetch data, and start from step 1 again. **/
@@ -84,6 +89,8 @@ const GamePageLogic: FC = () => {
         verifySong={verifySong}
         currentTracks={currentTracks}
         openingCountdownOver={openingCountdownOver}
+        rounds={rounds}
+        setRounds={setRounds}
       />
     </>
   );
