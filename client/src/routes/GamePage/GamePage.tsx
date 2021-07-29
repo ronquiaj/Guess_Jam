@@ -6,7 +6,6 @@ import {
 } from "../../components/__generated__/GetTracks";
 import { useSong } from "../../contexts/SongContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import Button from "../../components/global/Button/Button";
 import GameDesktop from "./screens/Desktop/GameDesktop";
 import GET_TRACKS from "./query";
 import "./styles.scss";
@@ -70,11 +69,6 @@ const GamePage: FC = () => {
     showSongInformation.current = true;
   }, []);
 
-  const song1 = currentTracks[0];
-  const song2 = currentTracks[1];
-  const song3 = currentTracks[2];
-  const song4 = currentTracks[3];
-
   return (
     <>
       <GameDesktop
@@ -84,26 +78,15 @@ const GamePage: FC = () => {
         startGame={startGame}
         score={score}
         showSongInformation={showSongInformation}
+        songs={[
+          currentTracks[0],
+          currentTracks[1],
+          currentTracks[2],
+          currentTracks[3],
+        ]}
+        verifySong={verifySong}
+        currentTracks={currentTracks}
       />
-      <div
-        className={`gamepage--button-container ${
-          !openingCountdownOver &&
-          "gamepage-container--center-col--button-container--disabled"
-        }`}
-      >
-        <Button onClick={() => verifySong(song1.name)}>
-          {currentTracks.length > 0 ? song1.name : "Song 1"}
-        </Button>
-        <Button onClick={() => verifySong(song2.name)}>
-          {currentTracks.length > 0 ? song2.name : "Song 2"}
-        </Button>
-        <Button onClick={() => verifySong(song3.name)}>
-          {currentTracks.length > 0 ? song3.name : "Song 3"}
-        </Button>
-        <Button onClick={() => verifySong(song4.name)}>
-          {currentTracks.length > 0 ? song4.name : "Song 4"}
-        </Button>
-      </div>
     </>
   );
 };
