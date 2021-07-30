@@ -1,4 +1,4 @@
-import { FC, MutableRefObject } from "react";
+import { Dispatch, FC, MutableRefObject, SetStateAction } from "react";
 import Button from "../../components/global/Button/Button";
 import Typography from "../../components/global/Typography/Typography";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -21,6 +21,7 @@ type Props = {
   openingCountdownOver: boolean;
   rounds: number;
   timeRemaining: number;
+  setRounds: Dispatch<SetStateAction<number>>;
 };
 
 const GamePageView: FC<Props> = ({
@@ -36,13 +37,16 @@ const GamePageView: FC<Props> = ({
   openingCountdownOver,
   rounds,
   timeRemaining,
+  setRounds,
 }: Props) => {
   const { width } = useWindowDimensions();
+  const smallScreen = width <= 600;
   const buttons = {
     buttons: songs.map((song, index) => ({
       buttonName: song && song.name,
       onClick: () => {
         verifySong(song.name);
+        setRounds((rounds) => rounds - 1);
       },
       condition: {
         alternateName: `Song ${index + 1}`,
@@ -52,20 +56,20 @@ const GamePageView: FC<Props> = ({
   };
 
   return (
-    <div className="game-container">
-      <div className="game-container--tools">Left</div>
-      <div className="game-container--main">
+    <div className={`game-container`}>
+      <div className={`game-container--tools`}>Left</div>
+      <div className={`game-container--main`}>
         {gameStarted ? (
           <Countdown
             neon={true}
             countdownWords={["Ready?", "Set...", "Go!"]}
-            className="game-container--main--ready-set-go"
+            className={`game-container--main--ready-set-go`}
             time={1000}
             animationOver={closeOpeningCountdown}
           />
         ) : (
           <Button
-            className="game-container--main--big-button"
+            className={`game-container--main--big-button`}
             onClick={startGame}
           >
             Start
@@ -82,15 +86,15 @@ const GamePageView: FC<Props> = ({
           buttons={buttons.buttons}
         />
       </div>
-      <div className="game-container--info">
+      <div className={`game-container--info`}>
         <Typography
-          className="game-container--info--time-remaining"
+          className={`game-container--info--time-remaining`}
           variant="white"
         >
           Time remaining: {timeRemaining}
         </Typography>
         <Typography
-          className="game-container--info--rounds-left"
+          className={`game-container--info--rounds-left`}
           variant="white"
         >
           Rounds left: {rounds}
