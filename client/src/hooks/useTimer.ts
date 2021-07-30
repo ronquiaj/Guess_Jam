@@ -1,4 +1,10 @@
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  MutableRefObject,
+  useCallback,
+} from "react";
 
 /**
  * Hook which takes in the number to start the timer from, and when the timer hits 0 executes a function also passed in
@@ -10,31 +16,42 @@ const useTimer = (
 ): [
   timeRemaining: number,
   startTimer: () => void,
-  setEndFunc: Dispatch<SetStateAction<() => void>>
+  setEndFunc: MutableRefObject<() => void>,
+  resetTimer: () => void
 ] => {
   const timerId = useRef<NodeJS.Timeout>();
-  const [timeRemaining, setTimeRemaining] = useState(timeDesired);
-  const [endFunc, setEndFunc] = useState<() => void>(() => {});
+  const [timeRemaining, setTimeRemaining] = useState<number>(timeDesired);
+  const [reset, setReset] = useState<boolean>(false);
+  const endFunc = useRef<() => void>(() => {});
   const [start, setStart] = useState<boolean>(false);
-  const startTimer = () => {
-    setStart(true);
-  };
+
+  const startTimer = () => setStart(true);
+  const resetTimer = useCallback(() => {
+    setReset(true);
+  }, []);
 
   useEffect(() => {
-    if (start)
+    if (start) {
       timerId.current = setInterval(() => {
         setTimeRemaining((prevTime) => prevTime - 1);
       }, 1000);
-  }, [start]);
+      setStart(false);
+    } else if (reset) {
+      clearInterval((timerId.current as unknown) as NodeJS.Timeout);
+      setTimeRemaining(timeDesired);
+      startTimer();
+      setReset(false);
+    }
+  }, [start, resetTimer, reset, timeDesired]);
 
   useEffect(() => {
     if (timeRemaining === 0) {
       clearInterval((timerId.current as unknown) as NodeJS.Timeout);
-      endFunc();
+      endFunc.current();
     }
   }, [timeRemaining, endFunc]);
 
-  return [timeRemaining, startTimer, setEndFunc];
+  return [timeRemaining, startTimer, endFunc, resetTimer];
 };
 
 export default useTimer;

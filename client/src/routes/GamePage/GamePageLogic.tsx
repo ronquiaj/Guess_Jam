@@ -24,8 +24,7 @@ const GamePageLogic: FC = () => {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong } = useSong();
-  const [timeRemaining, startTimer] = useTimer(10)
-
+  const [timeRemaining, startTimer, endFunc, resetTimer] = useTimer(10);
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -36,19 +35,30 @@ const GamePageLogic: FC = () => {
       const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
       chosenSong.current = randomSong;
       setCurrentSong(randomSong.preview_url);
+      setRounds((rounds) => rounds - 1);
+      resetTimer();
     };
 
+    if (endFunc.current.toString() === "() => {}") endFunc.current = setupSong;
     if (openingCountdownOver) {
       if (currentTracks.length < totalRounds.current * 4 && !tracksMet.current)
         getTracks();
       else {
-        if (rounds === 0) alert("done");
+        if (rounds === 0) alert("done"); //TODO: Implement this
         if (tracksMet.current) setTimeout(() => setupSong(), 3000);
         else setupSong();
         tracksMet.current = true;
       }
     }
-  }, [openingCountdownOver, getTracks, currentTracks, setCurrentSong, rounds]);
+  }, [
+    openingCountdownOver,
+    getTracks,
+    currentTracks,
+    setCurrentSong,
+    rounds,
+    endFunc,
+    resetTimer,
+  ]);
 
   /** Check to see if cacheTracks exists, and if it does then add the newly fetched tracks to this cacheTracks array, otherwise just set cacheTracks to the fetched data. After fetching data,
   get four of those tracks and then disperse them to the buttons. Subtract four from our cacheTrack array and if there are less than 4 songs then fetch data, and start from step 1 again. **/
@@ -89,7 +99,7 @@ const GamePageLogic: FC = () => {
       currentTracks={currentTracks}
       openingCountdownOver={openingCountdownOver}
       rounds={rounds}
-      setRounds={setRounds}
+      timeRemaining={timeRemaining}
     />
   );
 };

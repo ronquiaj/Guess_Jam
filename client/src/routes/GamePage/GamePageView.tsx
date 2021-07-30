@@ -1,4 +1,4 @@
-import { Dispatch, FC, MutableRefObject, SetStateAction } from "react";
+import { FC, MutableRefObject } from "react";
 import Button from "../../components/global/Button/Button";
 import Typography from "../../components/global/Typography/Typography";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -20,7 +20,7 @@ type Props = {
   currentTracks: GetTracks_tracks[];
   openingCountdownOver: boolean;
   rounds: number;
-  setRounds: Dispatch<SetStateAction<number>>;
+  timeRemaining: number;
 };
 
 const GamePageView: FC<Props> = ({
@@ -35,7 +35,7 @@ const GamePageView: FC<Props> = ({
   currentTracks,
   openingCountdownOver,
   rounds,
-  setRounds,
+  timeRemaining,
 }: Props) => {
   const { width } = useWindowDimensions();
   const buttons = {
@@ -43,7 +43,6 @@ const GamePageView: FC<Props> = ({
       buttonName: song && song.name,
       onClick: () => {
         verifySong(song.name);
-        setRounds((rounds) => rounds - 1);
       },
       condition: {
         alternateName: `Song ${index + 1}`,
@@ -88,7 +87,7 @@ const GamePageView: FC<Props> = ({
           className="game-container--info--time-remaining"
           variant="white"
         >
-          Time remaining: {}
+          Time remaining: {timeRemaining}
         </Typography>
         <Typography
           className="game-container--info--rounds-left"
