@@ -4,6 +4,7 @@ import {
   GetTracks,
   GetTracks_tracks,
 } from "../../components/__generated__/GetTracks";
+import useTimer from "../../hooks/useTimer";
 import { useSong } from "../../contexts/SongContext";
 import GamePageView from "./GamePageView";
 import GET_TRACKS from "./query";
@@ -14,17 +15,17 @@ const GamePageLogic: FC = () => {
   const cacheTracks = useRef<GetTracks_tracks[]>([]);
   const tracksMet = useRef<boolean>(false);
   const showSongInformation = useRef<boolean>(false);
-  const timerId = useRef<NodeJS.Timeout>();
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
     false
   );
-  const [timeRemaining, setTimeRemaining] = useState<number>(10);
   const [rounds, setRounds] = useState(10);
   const totalRounds = useRef<number>(rounds);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong } = useSong();
+  const [timeRemaining, startTimer] = useTimer(10)
+
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
