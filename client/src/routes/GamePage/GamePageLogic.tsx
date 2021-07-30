@@ -18,12 +18,13 @@ const GamePageLogic: FC = () => {
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
     false
   );
+  const [timeRemaining, setTimeRemaining] = useState<number>(10);
   const [rounds, setRounds] = useState(10);
   const totalRounds = useRef<number>(rounds);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
-  const { setCurrentSong, stopCurrentSong } = useSong();
+  const { setCurrentSong } = useSong();
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const startGame = () => setGameStarted(true);
 
@@ -48,8 +49,6 @@ const GamePageLogic: FC = () => {
     }
   }, [openingCountdownOver, getTracks, currentTracks, setCurrentSong, rounds]);
 
-  console.log(cacheTracks.current.length);
-
   /** Check to see if cacheTracks exists, and if it does then add the newly fetched tracks to this cacheTracks array, otherwise just set cacheTracks to the fetched data. After fetching data,
   get four of those tracks and then disperse them to the buttons. Subtract four from our cacheTrack array and if there are less than 4 songs then fetch data, and start from step 1 again. **/
   useEffect(() => {
@@ -72,27 +71,25 @@ const GamePageLogic: FC = () => {
   }, []);
 
   return (
-    <>
-      <GamePageView
-        chosenSong={chosenSong}
-        closeOpeningCountdown={closeOpeningCountdown}
-        gameStarted={gameStarted}
-        startGame={startGame}
-        score={score}
-        showSongInformation={showSongInformation}
-        songs={[
-          currentTracks[0],
-          currentTracks[1],
-          currentTracks[2],
-          currentTracks[3],
-        ]}
-        verifySong={verifySong}
-        currentTracks={currentTracks}
-        openingCountdownOver={openingCountdownOver}
-        rounds={rounds}
-        setRounds={setRounds}
-      />
-    </>
+    <GamePageView
+      chosenSong={chosenSong}
+      closeOpeningCountdown={closeOpeningCountdown}
+      gameStarted={gameStarted}
+      startGame={startGame}
+      score={score}
+      showSongInformation={showSongInformation}
+      songs={[
+        currentTracks[0],
+        currentTracks[1],
+        currentTracks[2],
+        currentTracks[3],
+      ]}
+      verifySong={verifySong}
+      currentTracks={currentTracks}
+      openingCountdownOver={openingCountdownOver}
+      rounds={rounds}
+      setRounds={setRounds}
+    />
   );
 };
 
