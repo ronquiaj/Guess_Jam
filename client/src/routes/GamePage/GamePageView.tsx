@@ -9,6 +9,7 @@ import SongInfo from "./components/SongInfo/SongInfo";
 import "./styles/desktop-styles.scss";
 import "./styles/mobile-styles.scss";
 import TimeInfo from "./components/TimeInfo/TimeInfo";
+import SolidButton from "../../components/global/SolidButton/SolidButton";
 
 type Props = {
   gameStarted: boolean;
@@ -70,11 +71,16 @@ const GamePageView: FC<Props> = ({
         }game-container--main`}
       >
         {smallScreen && (
-          <TimeInfo
-            rounds={rounds}
-            smallScreen={smallScreen}
-            timeRemaining={timeRemaining}
-          />
+          <>
+            <TimeInfo
+              rounds={rounds}
+              smallScreen={smallScreen}
+              timeRemaining={timeRemaining}
+            />
+            <SolidButton onClick={() => alert("This doesn't do anything yet")}>
+              Chat and powerups
+            </SolidButton>
+          </>
         )}
         {gameStarted ? (
           <Countdown
