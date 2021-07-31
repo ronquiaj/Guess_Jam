@@ -66,6 +66,8 @@
     z-index: -5;
     background-color: $blue-background;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
     &__show {
       animation: 0.25s alternate move-down;
       opacity: 100%;
@@ -78,7 +80,9 @@
       opacity: 0;
     }
     &__button {
-      width: 98%;
+      width: calc(100% - 9.6px);
+      margin: 0;
+      margin-top: 1rem;
     }
   }
 }
