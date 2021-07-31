@@ -24,7 +24,8 @@
     "@types/graphql": "^14.5.0",
     "@types/node": "^15.12.2",
     "apollo": "^2.33.4",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "typescript": "^4.3.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
