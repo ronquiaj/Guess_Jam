@@ -16,13 +16,3 @@ $breakpoints: (
         + "Available breakpoints are: #{map-keys($breakpoints)}.";
   }
 }
-
-/* Usage:
-.selector {
-  color: red;
-  
-  @include breakpoint('small') {
-    color: blue;
-  }
-}
-*/
