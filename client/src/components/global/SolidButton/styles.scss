@@ -1,0 +1,13 @@
+@import "styles/colors";
+
+.solid-button {
+  font-family: "Caveat", cursive;
+  font-size: 1.5rem;
+  color: $white;
+  width: 95%;
+  height: 2rem;
+  background-color: $blue-off;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}

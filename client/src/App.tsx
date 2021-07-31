@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSong } from "./contexts/SongContext";
 import Lobby from "./routes/Lobby/Lobby";
 import Error from "./routes/Error/Error";
-import GamePage from "./routes/GamePage/GamePage";
+import GamePage from "./routes/GamePage/GamePageLogic";
 import Landing from "./routes/Landing/Landing";
 import Navbar from "./components/Navbar/Navbar";
 

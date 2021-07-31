@@ -1,6 +1,7 @@
 @import "styles/colors";
 @import "styles/effects";
 @import "styles/utilities";
+@import "styles/breakpoints";
 
 .song-info-container {
   margin-bottom: 2rem;
@@ -11,8 +12,35 @@
     width: 30rem;
     height: 20rem;
     border-radius: 2rem;
+    @include breakpoint("xl") {
+      width: 25rem;
+      height: 15rem;
+    }
+    @include breakpoint("lg") {
+      width: 17.5rem;
+      height: 10rem;
+    }
+    @include breakpoint("md") {
+      width: 11.5rem;
+      height: 7.5rem;
+    }
+    @include breakpoint("xs") {
+      margin-bottom: 0;
+      width: 10rem;
+      height: 6.5rem;
+    }
   }
   &--album-name {
     text-align: center;
+    @include breakpoint("xl") {
+      font-size: 2.35rem;
+    }
+    @include breakpoint("lg") {
+      font-size: 1.9rem;
+    }
+    @include breakpoint("md") {
+      font-size: 1.65rem;
+      width: 80%;
+    }
   }
 }

@@ -15,12 +15,22 @@
   }
 
   &--route-container {
-    width: 40%;
+    width: 60%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     @include breakpoint("lg") {
       width: 90%;
+    }
+
+    &--links {
+      font-size: 2.75rem;
+      @include breakpoint("lg") {
+        font-size: 2.3rem;
+      }
+      @include breakpoint("md") {
+        font-size: 2rem;
+      }
     }
   }
 
@@ -34,7 +44,7 @@
       width: 5.5rem;
       height: 5rem;
       margin-right: 2rem;
-      @include breakpoint("sm") {
+      @include breakpoint("lg") {
         width: 4.5rem;
         height: 4rem;
       }
@@ -56,6 +66,8 @@
     z-index: -5;
     background-color: $blue-background;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
     &__show {
       animation: 0.25s alternate move-down;
       opacity: 100%;
@@ -68,7 +80,9 @@
       opacity: 0;
     }
     &__button {
-      width: 93.5%;
+      width: calc(100% - 9.6px);
+      margin: 0;
+      margin-top: 1rem;
     }
   }
 }

@@ -6,7 +6,7 @@ const userRoutes = require("./build/routes/users");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 4000;
 const { ApolloServer } = require("apollo-server-express");
-const { typeDefs, resolvers } = require("./build/schema/schema");
+const { typeDefs, resolvers } = require("./build/schema/GetAnyTrack/schema");
 const app = express();
 const { SpotifyAPI } = require("./build/dataSources/spotifyAPI");
 
