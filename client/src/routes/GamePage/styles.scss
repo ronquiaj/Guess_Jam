@@ -1,38 +1,47 @@
-@import "../../styles/colors.scss";
-@import "../../styles/effects.scss";
+@import "styles/colors.scss";
+@import "styles/effects.scss";
+@import "styles/breakpoints.scss";
 
-.game-container {
+.desktop--game-container {
   display: flex;
   flex-direction: row;
-
   width: 100%;
   height: 100%;
 
   &--tools {
     width: 30%;
-    border: 5px solid pink;
   }
 
   &--info {
     width: 30%;
-    border: 5px solid pink;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     &--time-remaining {
       font-size: 4rem;
+      @include breakpoint("xl") {
+        font-size: 2.5rem;
+      }
+      @include breakpoint("md") {
+        font-size: 2rem;
+      }
       margin-top: 3rem;
     }
 
     &--rounds-left {
       font-size: 4rem;
+      @include breakpoint("xl") {
+        font-size: 2.5rem;
+      }
+      @include breakpoint("md") {
+        font-size: 2rem;
+      }
       margin: 2rem 0;
     }
   }
 
   &--main {
-    border: 5px solid pink;
     display: flex;
     flex-direction: column;
     height: 80vh;
@@ -40,12 +49,16 @@
     justify-content: flex-end;
     align-items: center;
     &--big-button {
-      margin-bottom: 7.5rem;
+      margin-bottom: 3rem;
       width: 15rem;
       padding: 1rem;
       color: $red-on;
       border: 6px solid $red-on;
       font-size: 4rem;
+      @include breakpoint("md") {
+        width: 10rem;
+        padding: 0;
+      }
     }
     &--ready-set-go {
       margin-bottom: 5rem;

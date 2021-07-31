@@ -24,6 +24,10 @@
   transition: 500ms ease;
   border-radius: 0.5rem;
   margin: 1rem;
+  @include breakpoint("xl") {
+    width: 40vw;
+    font-size: 1.6rem;
+  }
   @include breakpoint("sm") {
     width: 90vw;
     font-size: 1.7rem;

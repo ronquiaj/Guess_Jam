@@ -56,20 +56,34 @@ const GamePageView: FC<Props> = ({
   };
 
   return (
-    <div className={`game-container`}>
-      <div className={`game-container--tools`}>Left</div>
-      <div className={`game-container--main`}>
+    <div className={`${smallScreen ? "mobile--" : "desktop--"}game-container`}>
+      <div
+        className={`${
+          smallScreen ? "mobile--" : "desktop--"
+        }game-container--tools`}
+      >
+        Left
+      </div>
+      <div
+        className={`${
+          smallScreen ? "mobile--" : "desktop--"
+        }game-container--main`}
+      >
         {gameStarted ? (
           <Countdown
             neon={true}
             countdownWords={["Ready?", "Set...", "Go!"]}
-            className={`game-container--main--ready-set-go`}
+            className={`${
+              smallScreen ? "mobile--" : "desktop--"
+            }game-container--main--ready-set-go`}
             time={1000}
             animationOver={closeOpeningCountdown}
           />
         ) : (
           <Button
-            className={`game-container--main--big-button`}
+            className={`${
+              smallScreen ? "mobile--" : "desktop--"
+            }game-container--main--big-button`}
             onClick={startGame}
           >
             Start
@@ -81,20 +95,30 @@ const GamePageView: FC<Props> = ({
         <ButtonContainer
           className={`game--button-container ${
             !openingCountdownOver &&
-            "game-container--main--button-container--disabled"
+            `${
+              smallScreen ? "mobile--" : "desktop--"
+            }game-container--main--button-container--disabled`
           }`}
           buttons={buttons.buttons}
         />
       </div>
-      <div className={`game-container--info`}>
+      <div
+        className={`${
+          smallScreen ? "mobile--" : "desktop--"
+        }game-container--info`}
+      >
         <Typography
-          className={`game-container--info--time-remaining`}
+          className={`${
+            smallScreen ? "mobile--" : "desktop--"
+          }game-container--info--time-remaining`}
           variant="white"
         >
           Time remaining: {timeRemaining}
         </Typography>
         <Typography
-          className={`game-container--info--rounds-left`}
+          className={`${
+            smallScreen ? "mobile--" : "desktop--"
+          }game-container--info--rounds-left`}
           variant="white"
         >
           Rounds left: {rounds}

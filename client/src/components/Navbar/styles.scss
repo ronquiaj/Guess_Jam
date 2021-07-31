@@ -24,7 +24,13 @@
     }
 
     &--links {
-      font-size: 3.7rem;
+      font-size: 2.75rem;
+      @include breakpoint("lg") {
+        font-size: 2.3rem;
+      }
+      @include breakpoint("md") {
+        font-size: 2rem;
+      }
     }
   }
 
@@ -38,7 +44,7 @@
       width: 5.5rem;
       height: 5rem;
       margin-right: 2rem;
-      @include breakpoint("sm") {
+      @include breakpoint("lg") {
         width: 4.5rem;
         height: 4rem;
       }
