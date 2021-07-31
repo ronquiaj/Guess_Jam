@@ -24,6 +24,10 @@
       width: 11.5rem;
       height: 7.5rem;
     }
+    @include breakpoint("xs") {
+      width: 20rem;
+      height: 12.5rem;
+    }
   }
   &--album-name {
     text-align: center;

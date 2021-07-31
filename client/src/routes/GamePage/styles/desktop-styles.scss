@@ -17,28 +17,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    &--time-remaining {
-      font-size: 4rem;
-      @include breakpoint("xl") {
-        font-size: 2.5rem;
-      }
-      @include breakpoint("md") {
-        font-size: 2rem;
-      }
-      margin-top: 3rem;
-    }
-
-    &--rounds-left {
-      font-size: 4rem;
-      @include breakpoint("xl") {
-        font-size: 2.5rem;
-      }
-      @include breakpoint("md") {
-        font-size: 2rem;
-      }
-      margin: 2rem 0;
-    }
   }
 
   &--main {
@@ -57,7 +35,7 @@
       font-size: 4rem;
       @include breakpoint("md") {
         width: 10rem;
-        padding: 0;
+        padding: 0.5rem;
       }
     }
     &--ready-set-go {

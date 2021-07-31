@@ -6,7 +6,9 @@ import { GetTracks_tracks } from "../../components/__generated__/GetTracks";
 import ButtonContainer from "./components/ButtonContainer/ButtonContainer";
 import Countdown from "./components/Countdown/Countdown";
 import SongInfo from "./components/SongInfo/SongInfo";
-import "./styles.scss";
+import "./styles/desktop-styles.scss";
+import "./styles/mobile-styles.scss";
+import TimeInfo from "./components/TimeInfo/TimeInfo";
 
 type Props = {
   gameStarted: boolean;
@@ -61,14 +63,19 @@ const GamePageView: FC<Props> = ({
         className={`${
           smallScreen ? "mobile--" : "desktop--"
         }game-container--tools`}
-      >
-        Left
-      </div>
+      ></div>
       <div
         className={`${
           smallScreen ? "mobile--" : "desktop--"
         }game-container--main`}
       >
+        {smallScreen && (
+          <TimeInfo
+            rounds={rounds}
+            smallScreen={smallScreen}
+            timeRemaining={timeRemaining}
+          />
+        )}
         {gameStarted ? (
           <Countdown
             neon={true}
@@ -89,6 +96,12 @@ const GamePageView: FC<Props> = ({
             Start
           </Button>
         )}
+        {chosenSong.current && showSongInformation.current && smallScreen && (
+          <SongInfo
+            songName={chosenSong.current.name}
+            imageUrl={chosenSong.current.album.album_cover}
+          />
+        )}
         <Typography light={false} variant="hot-pink">
           Score: <span>{score.current}</span>
         </Typography>
@@ -107,24 +120,15 @@ const GamePageView: FC<Props> = ({
           smallScreen ? "mobile--" : "desktop--"
         }game-container--info`}
       >
-        <Typography
-          className={`${
-            smallScreen ? "mobile--" : "desktop--"
-          }game-container--info--time-remaining`}
-          variant="white"
-        >
-          Time remaining: {timeRemaining}
-        </Typography>
-        <Typography
-          className={`${
-            smallScreen ? "mobile--" : "desktop--"
-          }game-container--info--rounds-left`}
-          variant="white"
-        >
-          Rounds left: {rounds}
-        </Typography>
+        {!smallScreen && (
+          <TimeInfo
+            rounds={rounds}
+            smallScreen={smallScreen}
+            timeRemaining={timeRemaining}
+          />
+        )}
 
-        {chosenSong.current && showSongInformation.current && (
+        {chosenSong.current && showSongInformation.current && !smallScreen && (
           <SongInfo
             songName={chosenSong.current.name}
             imageUrl={chosenSong.current.album.album_cover}

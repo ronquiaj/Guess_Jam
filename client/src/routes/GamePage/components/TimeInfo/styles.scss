@@ -1,0 +1,61 @@
+@import "styles/breakpoints";
+
+.desktop--game-container--info--timeinfo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &--rounds-left {
+    font-size: 4rem;
+    margin: 2rem 0;
+    @include breakpoint("xl") {
+      font-size: 2.5rem;
+    }
+    @include breakpoint("md") {
+      font-size: 2rem;
+    }
+  }
+  &--time-remaining {
+    font-size: 4rem;
+    margin-top: 3rem;
+    @include breakpoint("xl") {
+      font-size: 2.5rem;
+    }
+    @include breakpoint("md") {
+      font-size: 2rem;
+    }
+  }
+}
+
+.mobile--game-container--info--timeinfo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 1rem;
+  &--rounds-left {
+    font-size: 4rem;
+    @include breakpoint("xl") {
+      font-size: 2.5rem;
+    }
+    @include breakpoint("md") {
+      font-size: 2rem;
+    }
+    @include breakpoint("sm") {
+      font-size: 1.7rem;
+    }
+  }
+  &--time-remaining {
+    font-size: 4rem;
+
+    @include breakpoint("xl") {
+      font-size: 2.5rem;
+    }
+    @include breakpoint("md") {
+      font-size: 2rem;
+    }
+    @include breakpoint("sm") {
+      font-size: 1.7rem;
+    }
+  }
+}
