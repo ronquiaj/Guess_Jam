@@ -9,7 +9,7 @@ import Button from "../global/Button/Button";
 const Navbar: FC = () => {
   const { width } = useWindowDimensions();
   const [open, setOpen] = useState<boolean>(false);
-  const smallScreen = 660 >= width;
+  const smallScreen = 800 >= width;
   return (
     <>
       <div className="navbar">

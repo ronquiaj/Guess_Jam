@@ -40,7 +40,7 @@ const GamePageView: FC<Props> = ({
   setRounds,
 }: Props) => {
   const { width } = useWindowDimensions();
-  const smallScreen = width <= 600;
+  const smallScreen = width <= 800;
   const buttons = {
     buttons: songs.map((song, index) => ({
       buttonName: song && song.name,

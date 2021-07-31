@@ -61,7 +61,10 @@
       }
     }
     &--ready-set-go {
-      margin-bottom: 5rem;
+      margin-bottom: 3rem;
+      @include breakpoint("md") {
+        font-size: 6rem;
+      }
     }
     &--button-container {
       display: flex;
