@@ -14,6 +14,7 @@ const GamePageLogic: FC = () => {
   const chosenSong = useRef<GetTracks_tracks>();
   const cacheTracks = useRef<GetTracks_tracks[]>([]);
   const showSongInformation = useRef<boolean>(false);
+  const buttonClicked = useRef<boolean>(false);
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
     false
   );
@@ -70,7 +71,8 @@ const GamePageLogic: FC = () => {
     if (!gameStarted)
       if (endFunc.current.toString() === "() => {}")
         endFunc.current = () => {
-          setRounds((rounds) => rounds - 1);
+          if (!buttonClicked.current) setRounds((rounds) => rounds - 1);
+          else buttonClicked.current = false;
         }; // Setup function to be in the userTimer hook
     if (openingCountdownOver) {
       // Check to see if our cacheTracks is smaller than the amount we specified, if it is get more tracks
@@ -102,6 +104,7 @@ const GamePageLogic: FC = () => {
 
   return (
     <GamePageView
+      buttonClicked={buttonClicked}
       chosenSong={chosenSong}
       closeOpeningCountdown={closeOpeningCountdown}
       countdownOver={countdownOver}

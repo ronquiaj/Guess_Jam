@@ -22,6 +22,7 @@ type Props = {
   verifySong: (songName: string) => void;
   currentTracks: GetTracks_tracks[];
   openingCountdownOver: boolean;
+  buttonClicked: MutableRefObject<boolean>;
   rounds: number;
   timeRemaining: number;
   setRounds: Dispatch<SetStateAction<number>>;
@@ -41,6 +42,7 @@ const GamePageView: FC<Props> = ({
   openingCountdownOver,
   rounds,
   timeRemaining,
+  buttonClicked,
   setRounds,
 }: Props) => {
   const { width } = useWindowDimensions();
@@ -50,6 +52,7 @@ const GamePageView: FC<Props> = ({
       buttonName: song && song.name,
       onClick: () => {
         userSelectedSong.current = song.name;
+        buttonClicked.current = true;
         setRounds((rounds) => rounds - 1);
       },
       condition: {
