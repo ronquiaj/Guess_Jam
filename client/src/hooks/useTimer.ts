@@ -15,7 +15,6 @@ const useTimer = (
   timeDesired: number
 ): [
   timeRemaining: number,
-  startTimer: () => void,
   setEndFunc: MutableRefObject<() => void>,
   resetTimer: () => void
 ] => {
@@ -46,14 +45,12 @@ const useTimer = (
 
   useEffect(() => {
     if (timeRemaining === 0) {
-      console.log(timerId.current);
       clearInterval((timerId.current as unknown) as NodeJS.Timeout);
       endFunc.current();
-      console.log(timerId.current);
     }
   }, [timeRemaining, endFunc]);
 
-  return [timeRemaining, startTimer, endFunc, resetTimer];
+  return [timeRemaining, endFunc, resetTimer];
 };
 
 export default useTimer;

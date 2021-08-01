@@ -25,6 +25,7 @@ type Props = {
   rounds: number;
   timeRemaining: number;
   setRounds: Dispatch<SetStateAction<number>>;
+  userSelectedSong: MutableRefObject<string>;
 };
 
 const GamePageView: FC<Props> = ({
@@ -35,7 +36,7 @@ const GamePageView: FC<Props> = ({
   showSongInformation,
   score,
   songs,
-  verifySong,
+  userSelectedSong,
   currentTracks,
   openingCountdownOver,
   rounds,
@@ -48,7 +49,7 @@ const GamePageView: FC<Props> = ({
     buttons: songs.map((song, index) => ({
       buttonName: song && song.name,
       onClick: () => {
-        verifySong(song.name);
+        userSelectedSong.current = song.name;
         setRounds((rounds) => rounds - 1);
       },
       condition: {

@@ -18,13 +18,14 @@ const GamePageLogic: FC = () => {
     false
   );
   const totalRounds = useRef<number>(10);
+  const userSelectedSong = useRef<string>("");
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [rounds, setRounds] = useState(totalRounds.current);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
   const [countdownOver, setCountdownOver] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong } = useSong();
-  const [timeRemaining, startTimer, endFunc, resetTimer] = useTimer(10);
+  const [timeRemaining, endFunc, resetTimer] = useTimer(10);
 
   const closeOpeningCountdown = () => setOpeningCountdownOver(true);
   const countdownIsOver = () => setCountdownOver(true);
@@ -46,7 +47,6 @@ const GamePageLogic: FC = () => {
    * Function which simply picks and plays a random song from our currentTracks array (should always be 4 as of right now)
    */
   const setupSong = useCallback(() => {
-    console.log("in set up song");
     showSongInformation.current = false;
     const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
     chosenSong.current = randomSong;
@@ -60,7 +60,6 @@ const GamePageLogic: FC = () => {
 
   // Sets and adds the spotify data to our cacheTracks
   useEffect(() => {
-    console.log("in first");
     if (data?.tracks && !gameStarted)
       cacheTracks.current = [...cacheTracks.current, ...data.tracks];
     setCurrentTracks(cacheTracks.current);
@@ -68,17 +67,15 @@ const GamePageLogic: FC = () => {
 
   // Gets the tracks after the countdown finishes
   useEffect(() => {
-    console.log("in second");
     if (!gameStarted)
       if (endFunc.current.toString() === "() => {}")
-        endFunc.current = setupSong; // Setup function to be in the userTimer hook
+        endFunc.current = () => {
+          setRounds((rounds) => rounds - 1);
+        }; // Setup function to be in the userTimer hook
     if (openingCountdownOver) {
       // Check to see if our cacheTracks is smaller than the amount we specified, if it is get more tracks
       if (currentTracks.length < totalRounds.current * 4) getTracks();
-      else {
-        console.log("finished collecting tracks");
-        setGameStarted(true);
-      }
+      else setGameStarted(true);
     }
   }, [
     currentTracks.length,
@@ -91,15 +88,17 @@ const GamePageLogic: FC = () => {
 
   // Logic that occurs when a round ends, either from button click or the timer running out
   useEffect(() => {
-    console.log("in third");
     if (gameStarted) {
       if (rounds === 0) alert("done"); //TODO: Implement this
       // setTimeout for 3 seconds to display time info
       if (rounds === totalRounds.current) setupSong();
       // The else below only occurs on the first song
-      else setTimeout(() => setupSong(), 3000);
+      else {
+        verifySong(userSelectedSong.current);
+        setTimeout(() => setupSong(), 3000);
+      }
     }
-  }, [rounds, setupSong, gameStarted]);
+  }, [rounds, setupSong, gameStarted, verifySong]);
 
   return (
     <GamePageView
@@ -121,6 +120,7 @@ const GamePageLogic: FC = () => {
       rounds={rounds}
       timeRemaining={timeRemaining}
       setRounds={setRounds}
+      userSelectedSong={userSelectedSong}
     />
   );
 };
