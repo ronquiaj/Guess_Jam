@@ -27,6 +27,7 @@ type Props = {
   timeRemaining: number;
   setRounds: Dispatch<SetStateAction<number>>;
   userSelectedSong: MutableRefObject<string>;
+  buttonsDisabled: MutableRefObject<boolean>;
 };
 
 const GamePageView: FC<Props> = ({
@@ -43,6 +44,7 @@ const GamePageView: FC<Props> = ({
   rounds,
   timeRemaining,
   buttonClicked,
+  buttonsDisabled,
   setRounds,
 }: Props) => {
   const { width } = useWindowDimensions();
@@ -117,7 +119,7 @@ const GamePageView: FC<Props> = ({
         </Typography>
         <ButtonContainer
           className={`game--button-container ${
-            !openingCountdownOver &&
+            (!openingCountdownOver || buttonsDisabled.current) &&
             `${
               smallScreen ? "mobile--" : "desktop--"
             }game-container--main--button-container--disabled`

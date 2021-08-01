@@ -19,6 +19,7 @@ const GamePageLogic: FC = () => {
     false
   );
   const totalRounds = useRef<number>(10);
+  const buttonsDisabled = useRef<boolean>(false);
   const userSelectedSong = useRef<string>("");
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [rounds, setRounds] = useState(totalRounds.current);
@@ -55,10 +56,6 @@ const GamePageLogic: FC = () => {
     resetTimer();
   }, [resetTimer, setCurrentSong]);
 
-  /**  Problem: When we run out of time, the setupsong is run from two different places due to race condition
-  this is in the useeffect above and in the useTimer hook logic. We either need to create a new function which is triggered
-  from the time running out in the hook */
-
   // Sets and adds the spotify data to our cacheTracks
   useEffect(() => {
     if (data?.tracks && !gameStarted)
@@ -72,7 +69,6 @@ const GamePageLogic: FC = () => {
       if (endFunc.current.toString() === "() => {}")
         endFunc.current = () => {
           if (!buttonClicked.current) setRounds((rounds) => rounds - 1);
-          else buttonClicked.current = false;
         }; // Setup function to be in the userTimer hook
     if (openingCountdownOver) {
       // Check to see if our cacheTracks is smaller than the amount we specified, if it is get more tracks
@@ -96,8 +92,13 @@ const GamePageLogic: FC = () => {
       if (rounds === totalRounds.current) setupSong();
       // The else below only occurs on the first song
       else {
+        buttonsDisabled.current = true;
         verifySong(userSelectedSong.current);
-        setTimeout(() => setupSong(), 3000);
+        setTimeout(() => {
+          setupSong();
+          buttonsDisabled.current = false;
+          buttonClicked.current = false;
+        }, 3000);
       }
     }
   }, [rounds, setupSong, gameStarted, verifySong]);
@@ -124,6 +125,7 @@ const GamePageLogic: FC = () => {
       timeRemaining={timeRemaining}
       setRounds={setRounds}
       userSelectedSong={userSelectedSong}
+      buttonsDisabled={buttonsDisabled}
     />
   );
 };
