@@ -42,6 +42,9 @@ const GamePageLogic: FC = () => {
     showSongInformation.current = true;
   }, []);
 
+  /**
+   * Function which simply picks and plays a random song from our currentTracks array (should always be 4 as of right now)
+   */
   const setupSong = useCallback(() => {
     console.log("in set up song");
     showSongInformation.current = false;
@@ -58,16 +61,17 @@ const GamePageLogic: FC = () => {
   // Sets and adds the spotify data to our cacheTracks
   useEffect(() => {
     console.log("in first");
-    if (data?.tracks) {
+    if (data?.tracks && !gameStarted)
       cacheTracks.current = [...cacheTracks.current, ...data.tracks];
-      setCurrentTracks(cacheTracks.current);
-    }
-  }, [data?.tracks]);
+    setCurrentTracks(cacheTracks.current);
+  }, [data?.tracks, gameStarted]);
 
   // Gets the tracks after the countdown finishes
   useEffect(() => {
     console.log("in second");
-    if (endFunc.current.toString() === "() => {}") endFunc.current = setupSong; // Setup function to be in the userTimer hook
+    if (!gameStarted)
+      if (endFunc.current.toString() === "() => {}")
+        endFunc.current = setupSong; // Setup function to be in the userTimer hook
     if (openingCountdownOver) {
       // Check to see if our cacheTracks is smaller than the amount we specified, if it is get more tracks
       if (currentTracks.length < totalRounds.current * 4) getTracks();
@@ -82,6 +86,7 @@ const GamePageLogic: FC = () => {
     getTracks,
     openingCountdownOver,
     setupSong,
+    gameStarted,
   ]);
 
   // Logic that occurs when a round ends, either from button click or the timer running out
