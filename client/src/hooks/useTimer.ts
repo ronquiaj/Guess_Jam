@@ -46,8 +46,10 @@ const useTimer = (
 
   useEffect(() => {
     if (timeRemaining === 0) {
+      console.log(timerId.current);
       clearInterval((timerId.current as unknown) as NodeJS.Timeout);
       endFunc.current();
+      console.log(timerId.current);
     }
   }, [timeRemaining, endFunc]);
 

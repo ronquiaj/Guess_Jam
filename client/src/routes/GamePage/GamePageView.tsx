@@ -12,9 +12,9 @@ import TimeInfo from "./components/TimeInfo/TimeInfo";
 import SolidButton from "../../components/global/SolidButton/SolidButton";
 
 type Props = {
-  gameStarted: boolean;
+  countdownOver: boolean;
+  countdownIsOver: () => void;
   closeOpeningCountdown: () => void;
-  startGame: () => void;
   chosenSong: MutableRefObject<GetTracks_tracks | undefined>;
   showSongInformation: MutableRefObject<boolean>;
   score: MutableRefObject<number>;
@@ -28,9 +28,9 @@ type Props = {
 };
 
 const GamePageView: FC<Props> = ({
-  gameStarted,
+  countdownOver,
+  countdownIsOver,
   closeOpeningCountdown,
-  startGame,
   chosenSong,
   showSongInformation,
   score,
@@ -82,7 +82,7 @@ const GamePageView: FC<Props> = ({
             </SolidButton>
           </>
         )}
-        {gameStarted ? (
+        {countdownOver ? (
           <Countdown
             neon={true}
             countdownWords={["Ready?", "Set...", "Go!"]}
@@ -97,7 +97,7 @@ const GamePageView: FC<Props> = ({
             className={`${
               smallScreen ? "mobile--" : "desktop--"
             }game-container--main--big-button`}
-            onClick={startGame}
+            onClick={countdownIsOver}
           >
             Start
           </Button>

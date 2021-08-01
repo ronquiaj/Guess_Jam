@@ -13,34 +13,37 @@ const GamePageLogic: FC = () => {
   const score = useRef<number>(0);
   const chosenSong = useRef<GetTracks_tracks>();
   const cacheTracks = useRef<GetTracks_tracks[]>([]);
-  const tracksMet = useRef<boolean>(false);
   const showSongInformation = useRef<boolean>(false);
   const [openingCountdownOver, setOpeningCountdownOver] = useState<boolean>(
     false
   );
   const totalRounds = useRef<number>(10);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [rounds, setRounds] = useState(totalRounds.current);
   const [currentTracks, setCurrentTracks] = useState<GetTracks_tracks[]>([]);
-  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [countdownOver, setCountdownOver] = useState<boolean>(false);
   const [getTracks, { data }] = useLazyQuery<GetTracks>(GET_TRACKS);
   const { setCurrentSong } = useSong();
   const [timeRemaining, startTimer, endFunc, resetTimer] = useTimer(10);
-  const closeOpeningCountdown = () => setOpeningCountdownOver(true);
-  const startGame = () => setGameStarted(true);
 
-  const verifySong = useCallback((songName: string) => {
-    if (songName === chosenSong.current?.name) {
-      score.current += 100;
-    } else {
-      score.current -= 100;
-    }
+  const closeOpeningCountdown = () => setOpeningCountdownOver(true);
+  const countdownIsOver = () => setCountdownOver(true);
+
+  /**
+   * Function that takes in the clicked on songs name, and updates score based on if it matches the chosen songs name.
+   * In addition, the function substracts four from our current tracks and selects the new tracks
+   */
+  const verifySong = useCallback((songName: string = "") => {
+    if (songName === chosenSong.current?.name) score.current += 100;
+    else score.current -= 100;
     const newTracks = cacheTracks.current.slice(4);
     cacheTracks.current = newTracks;
-    setCurrentTracks((tracks) => tracks.splice(4));
+    setCurrentTracks((tracks) => tracks.splice(4)); // Update our track state here
     showSongInformation.current = true;
   }, []);
 
   const setupSong = useCallback(() => {
+    console.log("in set up song");
     showSongInformation.current = false;
     const randomSong = cacheTracks.current[Math.floor(Math.random() * 4)];
     chosenSong.current = randomSong;
@@ -48,55 +51,57 @@ const GamePageLogic: FC = () => {
     resetTimer();
   }, [resetTimer, setCurrentSong]);
 
-  useEffect(() => {
-    if (timeRemaining === 0) {
-      score.current -= 100;
-      const newTracks = cacheTracks.current.slice(4);
-      cacheTracks.current = newTracks;
-      setCurrentTracks((tracks) => tracks.splice(4));
-      showSongInformation.current = true;
-      setRounds((rounds) => rounds - 1);
-    }
-  }, [timeRemaining, resetTimer]);
+  /**  Problem: When we run out of time, the setupsong is run from two different places due to race condition
+  this is in the useeffect above and in the useTimer hook logic. We either need to create a new function which is triggered
+  from the time running out in the hook */
 
-  // Gets the tracks after the countdown finishes
+  // Sets and adds the spotify data to our cacheTracks
   useEffect(() => {
-    if (endFunc.current.toString() === "() => {}") endFunc.current = setupSong;
-    if (openingCountdownOver) {
-      // Check to see if our cacheTracks is at least the size we specified
-      if (currentTracks.length < totalRounds.current * 4 && !tracksMet.current)
-        getTracks();
-      else {
-        if (rounds === 0) alert("done"); //TODO: Implement this
-        if (tracksMet.current) setTimeout(() => setupSong(), 3000);
-        else setupSong();
-        tracksMet.current = true;
-      }
-    }
-  }, [
-    setupSong,
-    currentTracks.length,
-    endFunc,
-    getTracks,
-    openingCountdownOver,
-    rounds,
-  ]);
-
-  /** Check to see if cacheTracks exists, and if it does then add the newly fetched tracks to this cacheTracks array, otherwise just set cacheTracks to the fetched data. After fetching data,
-  get four of those tracks and then disperse them to the buttons. Subtract four from our cacheTrack array and if there are less than 4 songs then fetch data, and start from step 1 again. **/
-  useEffect(() => {
+    console.log("in first");
     if (data?.tracks) {
       cacheTracks.current = [...cacheTracks.current, ...data.tracks];
       setCurrentTracks(cacheTracks.current);
     }
   }, [data?.tracks]);
 
+  // Gets the tracks after the countdown finishes
+  useEffect(() => {
+    console.log("in second");
+    if (endFunc.current.toString() === "() => {}") endFunc.current = setupSong; // Setup function to be in the userTimer hook
+    if (openingCountdownOver) {
+      // Check to see if our cacheTracks is smaller than the amount we specified, if it is get more tracks
+      if (currentTracks.length < totalRounds.current * 4) getTracks();
+      else {
+        console.log("finished collecting tracks");
+        setGameStarted(true);
+      }
+    }
+  }, [
+    currentTracks.length,
+    endFunc,
+    getTracks,
+    openingCountdownOver,
+    setupSong,
+  ]);
+
+  // Logic that occurs when a round ends, either from button click or the timer running out
+  useEffect(() => {
+    console.log("in third");
+    if (gameStarted) {
+      if (rounds === 0) alert("done"); //TODO: Implement this
+      // setTimeout for 3 seconds to display time info
+      if (rounds === totalRounds.current) setupSong();
+      // The else below only occurs on the first song
+      else setTimeout(() => setupSong(), 3000);
+    }
+  }, [rounds, setupSong, gameStarted]);
+
   return (
     <GamePageView
       chosenSong={chosenSong}
       closeOpeningCountdown={closeOpeningCountdown}
-      gameStarted={gameStarted}
-      startGame={startGame}
+      countdownOver={countdownOver}
+      countdownIsOver={countdownIsOver}
       score={score}
       showSongInformation={showSongInformation}
       songs={[
