@@ -14,6 +14,18 @@ const { SpotifyAPI } = require("./build/dataSources/spotifyAPI");
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
+const mongoUsername = process.env.MONGO_USERNAME;
+const mongoPassword = process.env.MONGO_PASSWORD;
+
+const mongoUrl = `mongodb+srv://${mongoUsername}:${mongoPassword}@guessjam.vogwr.mongodb.net/GuessJam?retryWrites=true&w=majority`;
+console.log(mongoUrl);
+
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.once("open", () => {
+  console.log("we're in business baby!");
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -35,14 +47,12 @@ const getSpotifyToken = async () => {
   const config = {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${auth}`,
-    },
+      Authorization: `Basic ${auth}`
+    }
   };
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
-  const result = await axios
-    .post(url, params, config)
-    .catch((err) => console.log(err));
+  const result = await axios.post(url, params, config).catch((err) => console.log(err));
   return result.data.access_token;
 };
 
@@ -56,15 +66,17 @@ const server = new ApolloServer({
     return { token: req.headers.authorization || "" };
   },
   dataSources: () => ({
-    spotifyAPI: new SpotifyAPI(),
+    spotifyAPI: new SpotifyAPI()
   }),
   formatError: (err) => {
     console.error(err);
     return err;
-  },
+  }
 });
+
 server.start();
 server.applyMiddleware({ app });
+
 console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
 
 // Deploy server
