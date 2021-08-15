@@ -5,7 +5,10 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 4000;
 const { ApolloServer } = require("apollo-server-express");
-const { typeDefs, resolvers } = require("./build/schema/GetAnyTrack/schema");
+const {
+  typeDefs,
+  resolvers,
+} = require("./build/graphql/schema/GetAnyTrack/schema");
 const app = express();
 const { SpotifyAPI } = require("./build/dataSources/spotifyAPI");
 
