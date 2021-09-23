@@ -11,7 +11,7 @@ const {
 } = require("./build/graphql/schema/GetAnyTrack/schema");
 const app = express();
 const { SpotifyAPI } = require("./build/dataSources/spotifyAPI");
-
+console.log("testing");
 // Get client info
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
