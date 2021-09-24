@@ -36,7 +36,7 @@ const useTimer = (
       }, 1000);
       setStart(false);
     } else if (reset) {
-      clearInterval((timerId.current as unknown) as NodeJS.Timeout);
+      clearInterval(timerId.current as unknown as NodeJS.Timeout);
       setTimeRemaining(timeDesired);
       startTimer();
       setReset(false);
@@ -45,7 +45,7 @@ const useTimer = (
 
   useEffect(() => {
     if (timeRemaining === 0) {
-      clearInterval((timerId.current as unknown) as NodeJS.Timeout);
+      clearInterval(timerId.current as unknown as NodeJS.Timeout);
       endFunc.current();
     }
   }, [timeRemaining, endFunc]);
