@@ -1,0 +1,11 @@
+name: Check Formatted Code
+on: [push]
+jobs:
+  Formatted:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install modules"
+        run: "yarn install"
+      - name: "Prettier"
+        run: "yarn check:style"
